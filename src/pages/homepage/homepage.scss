@@ -1,1 +1,33 @@
 @import "../../index";
+
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    min-height: calc(100dvh - 190px);
+    padding-bottom: 20px;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width: 200px;
+
+        select {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-top: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .address {
+            margin-top: 10px;
+            text-align: start;
+            width: 100%;      
+        }
+    }
+}

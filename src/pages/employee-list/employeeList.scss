@@ -1,1 +1,28 @@
 @import "../../index";
+
+.employee-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    min-height: calc(100dvh - 193px);
+    padding-bottom: 20px;
+
+    .employee-table_wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 1000px;
+        gap: 30px;
+
+        .entries-and-search {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-and-pagination {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

@@ -3,7 +3,6 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
 }
 
 body {
@@ -22,6 +21,10 @@ a:hover {
   text-decoration: underline;
 }
 
+h1, h2 {
+  margin: 0;
+}
+
 /***** Variables *****/
 /***** Button *****/
 .button {
@@ -31,13 +34,13 @@ a:hover {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: 100%;
+  width: 200px;
   font-size: 1.1rem;
   font-weight: bold;
   padding: 10px;
   border: none;
-  color: #fff;
-  background-color: #00bc77;
+  color: white;
+  background-color: #92AC20;
   cursor: pointer;
 }
 .button:after {
@@ -47,7 +50,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #00bc77;
+  background-color: #92AC20;
   z-index: -2;
 }
 .button:before {
@@ -57,7 +60,7 @@ a:hover {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: #007047;
+  background-color: #5b6c14;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   z-index: -1;
@@ -88,35 +91,35 @@ a:hover {
   min-height: calc(100dvh - 135px);
 }
 .error h1 {
-  font-size: 6rem;
+  font-size: 18rem;
+  font-weight: bold;
   line-height: normal;
-  color: #00bc77;
+  color: #92AC20;
   line-height: 14rem;
 }
 @media screen and (max-width: 720px) {
   .error h1 {
-    font-size: 18rem;
-    font-weight: bold;
+    font-size: 6rem;
   }
 }
 .error h2 {
-  font-size: 1.125rem;
+  font-size: 2.25rem;
   font-weight: normal;
-  color: #00bc77;
+  color: #92AC20;
 }
 @media screen and (max-width: 720px) {
   .error h2 {
-    font-size: 2.25rem;
+    font-size: 1.125rem;
   }
 }
 .error h3 {
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   font-weight: normal;
   -webkit-text-decoration: underline 1px;
           text-decoration: underline 1px;
 }
 @media screen and (max-width: 720px) {
   .error h3 {
-    font-size: 1.125rem;
+    font-size: 0.875rem;
   }
 }/*# sourceMappingURL=error.css.map */

@@ -3,7 +3,6 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
 }
 
 body {
@@ -22,6 +21,10 @@ a:hover {
   text-decoration: underline;
 }
 
+h1, h2 {
+  margin: 0;
+}
+
 /***** Variables *****/
 /***** Button *****/
 .button {
@@ -31,13 +34,13 @@ a:hover {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: 100%;
+  width: 115px;
   font-size: 1.1rem;
   font-weight: bold;
   padding: 10px;
   border: none;
-  color: #fff;
-  background-color: #00bc77;
+  color: white;
+  background-color: #92AC20;
   cursor: pointer;
 }
 .button:after {
@@ -47,7 +50,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #00bc77;
+  background-color: #92AC20;
   z-index: -2;
 }
 .button:before {
@@ -57,7 +60,7 @@ a:hover {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: #007047;
+  background-color: #5b6c14;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   z-index: -1;

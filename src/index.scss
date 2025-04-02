@@ -4,8 +4,6 @@
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
-    color: #2c3e50;
 }
   
 body {
@@ -23,14 +21,18 @@ a:hover {
     text-decoration: underline;
 }
 
+h1, h2 {
+    margin: 0;
+}
+
 /***** Variables *****/
 
-$primary-color: #00bc77;
-$secondary-color: #fff;
-$tertiary-color: #222;
-$bg-color-dark: #12002b;
-$bg-color-light: white;
-$link-color: #2c3e50;
+$primary-color: #92AC20;
+$secondary-color: #596E0D;
+$tertiary-color: #6D8416;
+$dark-color: #12002b;
+$light-color: white;
+$link-color: #23290c;
 $link-active-color: #42b983;
 
 /***** Button *****/
@@ -41,13 +43,13 @@ $link-active-color: #42b983;
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: 100%;
+  width: 115px;
   
   font-size: 1.1rem;
   font-weight: bold;
   padding: 10px;
   border: none;
-  color: $secondary-color;
+  color: $light-color;
   background-color: $primary-color;
   cursor: pointer;
 
