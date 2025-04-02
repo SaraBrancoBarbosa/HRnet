@@ -1,0 +1,13 @@
+@import "../../index";
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    border-top: 2px solid #ccc;
+
+    .footer-text {
+        margin: 0;
+      }
+}

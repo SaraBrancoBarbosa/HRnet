@@ -1,0 +1,35 @@
+@import "../../index";
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    @media screen and (max-width: 350px){
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100%;
+
+        @include media-phone {
+            width: 80px;
+        }
+
+    }
+
+    nav {
+        display: flex;
+        column-gap: 50px;
+        font-size: 1.2rem;
+
+        @include media-phone {
+            column-gap: 26px;
+            font-size: 0.75rem;
+        }
+
+    }
+}

@@ -69,4 +69,11 @@ a:hover {
   width: 100%;
 }
 
-/***** Breakpoints for responsive design *****//*# sourceMappingURL=index.css.map */
+/***** Breakpoints for responsive design *****/
+/*
+@mixin media-phone {
+  @media screen and (min-width: 720px) {
+      @content;
+  }
+}
+*//*# sourceMappingURL=homepage.css.map */

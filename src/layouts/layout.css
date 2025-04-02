@@ -69,4 +69,23 @@ a:hover {
   width: 100%;
 }
 
-/***** Breakpoints for responsive design *****//*# sourceMappingURL=index.css.map */
+/***** Breakpoints for responsive design *****/
+.width-margin {
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: calc(100dvh - 209px);
+}
+
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 0 20px;
+}
+.wrapper main {
+  min-height: max(100dvh - 422px, 400px);
+}/*# sourceMappingURL=layout.css.map */

@@ -1,0 +1,91 @@
+/**** Bases ****/
+
+* {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    color: #2c3e50;
+}
+  
+body {
+    width: 100%;
+    min-height: 100dvh;
+    text-align: center;
+    margin: 0 auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/***** Variables *****/
+
+$primary-color: #00bc77;
+$secondary-color: #fff;
+$tertiary-color: #222;
+$bg-color-dark: #12002b;
+$bg-color-light: white;
+$link-color: #2c3e50;
+$link-active-color: #42b983;
+
+/***** Button *****/
+
+.button {  
+  display: inline-block;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  width: 100%;
+  
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  color: $secondary-color;
+  background-color: $primary-color;
+  cursor: pointer;
+
+  &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $primary-color;
+      z-index: -2;
+  }
+
+  &:before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: darken($primary-color, 15%);
+      transition: all .3s;
+      z-index: -1;
+  }
+
+  &:hover {
+    text-decoration: underline;
+
+      &:before {
+          width: 100%;
+      }
+  }
+}
+
+/***** Breakpoints for responsive design *****/
+@mixin media-phone {
+  @media screen and (max-width: 720px) {
+      @content;
+  }
+}
