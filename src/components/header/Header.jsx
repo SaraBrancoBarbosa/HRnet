@@ -10,8 +10,8 @@ function Header() {
             </Link>
 
             <nav>
-                <Link to="/">Create Employee</Link>
-                <Link to="/employee-list">Current Employees</Link>
+                <Link to="/create-employee">Create Employee</Link>
+                <Link to="/employees-list">Current Employees</Link>
             </nav>
         </header>
     )

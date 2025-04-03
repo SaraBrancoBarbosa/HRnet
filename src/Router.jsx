@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Layout from "./layouts/Layout"
 import Homepage from "./pages/homepage/Homepage"
 import Error from "./pages/error/Error"
-import EmployeeListPage from "./pages/employee-list/EmployeeList"
+import CreateEmployeePage from "./pages/create-employee/CreateEmployee"
+import EmployeesListPage from "./pages/employees-list/EmployeesList"
 
 function AppRouter() {
   return (
@@ -10,7 +11,8 @@ function AppRouter() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Homepage />} />
-                <Route path="/employee-list" index element={<EmployeeListPage />} />
+                <Route path="/create-employee" index element={<CreateEmployeePage />} />
+                <Route path="/employees-list" index element={<EmployeesListPage />} />
                 <Route path="*" element={<Error />} />
             </Route>
         </Routes>

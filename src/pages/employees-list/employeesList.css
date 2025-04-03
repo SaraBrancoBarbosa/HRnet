@@ -73,50 +73,46 @@ h1, h2 {
 }
 
 /***** Breakpoints for responsive design *****/
-header {
+.employee-list-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 30px;
+  min-height: calc(100dvh - 193px);
+  padding-bottom: 20px;
+}
+.employee-list-container .employee-table_wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  max-width: 1000px;
+  gap: 30px;
+}
+.employee-list-container .employee-table_wrapper .entries-and-search {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 100%;
 }
-@media screen and (max-width: 350px) {
-  header {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    gap: 10px;
-  }
-}
-header .logo {
-  width: 100px;
-  height: 100%;
-}
-@media screen and (max-width: 720px) {
-  header .logo {
-    width: 80px;
-  }
-}
-header nav {
+.employee-list-container .employee-table_wrapper .info-and-pagination {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-column-gap: 50px;
-     -moz-column-gap: 50px;
-          column-gap: 50px;
-  font-size: 1.2rem;
-}
-@media screen and (max-width: 720px) {
-  header nav {
-    -webkit-column-gap: 26px;
-       -moz-column-gap: 26px;
-            column-gap: 26px;
-    font-size: 0.75rem;
-  }
-}/*# sourceMappingURL=header.css.map */
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}/*# sourceMappingURL=employeesList.css.map */

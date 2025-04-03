@@ -1,6 +1,6 @@
-import "./employeeList.css"
+import "./employeesList.css"
 
-export default function EmployeeListPage() {
+function EmployeesListPage() {
   return (
     <div className="employee-list-container">
       <h1>Current Employees</h1>
@@ -82,3 +82,5 @@ export default function EmployeeListPage() {
     </div>
   )
 }
+
+export default EmployeesListPage
