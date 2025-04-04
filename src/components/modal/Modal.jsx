@@ -10,11 +10,9 @@ const ModalComponent = ({ isOpen, onRequestClose }) => {
       contentLabel="Employee successfully created modal"
       aria={{ labelledby: "heading" }}
       className="modal"
-      overlayClassName=""
     >
         <div className="text-container">
             <h2 id="heading">Employee Created!</h2>
-            
             <button onClick={onRequestClose} className="button">Close</button>
         </div>
     </Modal>
