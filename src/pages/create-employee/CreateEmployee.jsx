@@ -1,10 +1,16 @@
 import { useState } from "react"
 import ModalComponent from "../../components/modal/Modal"
+import DatePickerComponent from "../../components/datepicker/Datepicker"
 import "./createEmployee.css"
 
 function CreateEmployeePage() {
 
+  // Modal management
   const [modalIsOpen, setModalIsOpen] = useState(false)
+
+  // Datepicker management
+  const [dateOfBirth, setDateOfBirth] = useState(null)
+  const [startDate, setStartDate] = useState(null)
 
   function handleSubmit (e) {
     e.preventDefault()
@@ -15,8 +21,6 @@ function CreateEmployeePage() {
     setModalIsOpen(false);
   }
 
-  console.log(modalIsOpen)
-
   return (
     <div className="create-employee-container">
       
@@ -24,61 +28,68 @@ function CreateEmployeePage() {
 
       <form id="create-employee" onSubmit={handleSubmit}>
 
-        {/* Faire un composant de ça */}
-        <div className="label-input">
-          <label htlmfor="first-name">First Name</label>
-          <input type="text" id="first-name" />
-        </div>
+        <div className="labels-divs">
+          {/* Faire un composant de ça */}
+          <div className="label-input">
+            <label htlmfor="first-name">First Name</label>
+            <input type="text" id="first-name" />
+          </div>
 
-        <div className="label-input">
-          <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" />
-        </div>
+          <div className="label-input">
+            <label htmlFor="last-name">Last Name</label>
+            <input type="text" id="last-name" />
+          </div>
 
-        <div className="label-input">
-          <label htmlFor="date-of-birth">Date of Birth</label>
-          <input id="date-of-birth" type="text" />
-        </div>
+          {/* The 2 datepickers: Date of birth and Start date */}
+          <DatePickerComponent 
+            selectedDate={dateOfBirth}
+            onChange={setDateOfBirth}
+            id="date-of-birth"
+            label="Date of Birth"
+          />
 
-        <div className="label-input">
-          <label htmlFor="start-date">Start Date</label>
-          <input id="start-date" type="text" />
-        </div>
+          <DatePickerComponent 
+            selectedDate={startDate}
+            onChange={setStartDate}
+            id="start-date"
+            label="Start Date"
+          />
 
-          {/* Address */}
-          <fieldset className="address">
-              <legend>Address</legend>
+            {/* Address */}
+            <fieldset className="address">
+                <legend>Address</legend>
 
-              <div className="label-input">
-                <label htmlFor="street">Street</label>
-                <input id="street" type="text" />
-              </div>
+                <div className="label-input">
+                  <label htmlFor="street">Street</label>
+                  <input id="street" type="text" />
+                </div>
 
-              <div className="label-input">
-                <label htmlFor="city">City</label>
-                <input id="city" type="text" />
-              </div>
+                <div className="label-input">
+                  <label htmlFor="city">City</label>
+                  <input id="city" type="text" />
+                </div>
 
-              <div className="label-input">
-                <label htmlFor="state">State</label>
-                <select name="state" id="state"></select>
-              </div>
+                <div className="label-input">
+                  <label htmlFor="state">State</label>
+                  <select name="state" id="state"></select>
+                </div>
 
-              <div className="label-input">
-                <label htmlFor="zip-code">Zip Code</label>
-                <input id="zip-code" type="number" />
-              </div>
-          </fieldset>
+                <div className="label-input">
+                  <label htmlFor="zip-code">Zip Code</label>
+                  <input id="zip-code" type="number" />
+                </div>
+            </fieldset>
 
-          {/* Department */}
-          <label htlmfor="department">Department</label>
-          <select name="department" id="department">
-              <option>Sales</option>
-              <option>Marketing</option>
-              <option>Engineering</option>
-              <option>Human Resources</option>
-              <option>Legal</option>
-          </select>
+            {/* Department */}
+            <label htlmfor="department">Department</label>
+            <select name="department" id="department">
+                <option>Sales</option>
+                <option>Marketing</option>
+                <option>Engineering</option>
+                <option>Human Resources</option>
+                <option>Legal</option>
+            </select>
+          </div>
 
         <button type="submit" className="button">Save</button>
         

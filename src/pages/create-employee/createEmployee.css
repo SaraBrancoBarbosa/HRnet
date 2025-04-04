@@ -81,11 +81,27 @@ This modal is easy to custom, according more freedom to the designers and the de
   gap: 10px;
   width: 200px;
 }
-.create-employee-container form select {
-  width: 100%;
+.create-employee-container form .labels-divs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  gap: 10px;
 }
-.create-employee-container form label {
+.create-employee-container form .labels-divs .label-input {
+  text-align: start;
+}
+.create-employee-container form .labels-divs .label-input label {
   display: block;
+}
+.create-employee-container form .labels-divs .label-input select {
+  width: 100%;
 }
 .create-employee-container form .address {
   text-align: start;

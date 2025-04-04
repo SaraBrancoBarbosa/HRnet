@@ -19,14 +19,25 @@ This modal is easy to custom, according more freedom to the designers and the de
         gap: 10px;
         width: 200px;
 
-        select {
-            width: 100%;
+        .labels-divs {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 10px;
+
+            .label-input {
+                text-align: start;
+    
+                label {
+                    display: block;
+                }
+    
+                select {
+                    width: 100%;
+                }
+            }
         }
 
-        label {
-            display: block;
-        }
-        
         .address {
             text-align: start;
             width: 100%;      
