@@ -1,17 +1,22 @@
 @import "../../index";
 
+/*****
+This modal is easy to custom, according more freedom to the designers and the developers
+*****/
+
 .create-employee-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    min-height: calc(100dvh - 190px);
+    min-height: calc(100dvh - 193px);
     padding-bottom: 20px;
 
     form {
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: center;
+        gap: 10px;
         width: 200px;
 
         select {
@@ -20,12 +25,9 @@
 
         label {
             display: block;
-            margin-top: 1rem;
-            margin-bottom: 10px;
         }
         
         .address {
-            margin-top: 10px;
             text-align: start;
             width: 100%;      
         }
