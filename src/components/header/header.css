@@ -31,10 +31,14 @@ h1, h2 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 115px;
+  padding: 10px;
+  border-radius: 5px;
   font-size: 1.1rem;
   font-weight: bold;
-  padding: 10px;
   border: none;
   color: white;
   background-color: #92AC20;
@@ -64,6 +68,7 @@ header {
         -ms-flex-direction: column;
             flex-direction: column;
     gap: 10px;
+    padding-bottom: 30px;
   }
 }
 header .logo {
