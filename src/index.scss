@@ -34,54 +34,25 @@ $dark-color: #12002b;
 $light-color: white;
 $link-color: #23290c;
 $link-active-color: #42b983;
+$modal-color: #92AC203B;
 
 /***** Button *****/
 
 .button {  
-  display: inline-block;
-  transition: all .3s;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+  display: flex;
+  justify-content: center;
   width: 115px;
-  
+  padding: 10px;
+  border-radius: 5px;
   font-size: 1.1rem;
   font-weight: bold;
-  padding: 10px;
   border: none;
   color: $light-color;
   background-color: $primary-color;
   cursor: pointer;
 
-  &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: $primary-color;
-      z-index: -2;
-  }
-
-  &:before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0%;
-      height: 100%;
-      background-color: darken($primary-color, 15%);
-      transition: all .3s;
-      z-index: -1;
-  }
-
   &:hover {
     text-decoration: underline;
-
-      &:before {
-          width: 100%;
-      }
   }
 }
 
