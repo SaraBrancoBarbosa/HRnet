@@ -1,12 +1,24 @@
-# React + Vite
+![Logo de l'application SportSee.](/public/assets/logo.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# L'application HRnet (entreprise fictive)
+HRnet est l'application web interne de WealthHealth, une grande société financière.<br>
+L'application permet de gérer les dossiers des employés.<br>
+Pour cela, elle propose un système de création d'employés et de visualisation de ceux-ci en format tableau.<br>
+Actuellement, notre équipe met à niveau l'application en passant de jQuery à React.
 
-Currently, two official plugins are available:
+## Les technologies utilisées
+- React (Vite)
+- Router
+- Sass
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## L'installation du projet
+### Les prérequis
+- Node
 
-## Expanding the ESLint configuration
+### Les étapes d'installation
+**Installation du _front-end_ :** <br>
+Clôner ce repo puis installez les dépendances : <br>
+`npm install`
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Lancer le _front-end_ en vous positionnant dans le dossier : <br>
+`npm run dev`
