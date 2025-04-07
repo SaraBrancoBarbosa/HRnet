@@ -1,4 +1,5 @@
 import DatePicker from "react-datepicker"
+import PropTypes from "prop-types"
 import "react-datepicker/dist/react-datepicker.css"
 
 function DatePickerComponent({ selectedDate, onChange, id, label }) {
@@ -16,4 +17,11 @@ function DatePickerComponent({ selectedDate, onChange, id, label }) {
     )
   }
   
+  DatePickerComponent.propTypes = {
+    selectedDate: PropTypes.instanceOf(Date),
+    onChange: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  }
+
   export default DatePickerComponent
