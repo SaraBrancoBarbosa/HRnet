@@ -12,7 +12,7 @@ const ModalComponent = ({ isOpen, onRequestClose }) => {
       className="modal"
     >
         <div className="text-container">
-            <h2 id="heading">Employee Created!</h2>
+            <h2 id="heading">Employee created!</h2>
             <button onClick={onRequestClose} className="button">Close</button>
         </div>
     </Modal>
