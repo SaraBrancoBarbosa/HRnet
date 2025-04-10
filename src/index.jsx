@@ -3,14 +3,14 @@ import { createRoot } from "react-dom/client"
 import Modal from "react-modal"
 import "./index.css"
 import App from "./App.jsx"
-import ApiProvider from "./api/context/ApiProvider.jsx"
+import ApiProviderEmployees from "./api/context/ApiProvider.jsx"
 
 Modal.setAppElement("#root")
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ApiProvider>
+    <ApiProviderEmployees>
       <App />
-    </ApiProvider>
+    </ApiProviderEmployees>
   </StrictMode>
 )
