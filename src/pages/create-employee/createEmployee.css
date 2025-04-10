@@ -93,6 +93,7 @@ This modal is easy to custom, according more freedom to the designers and the de
       -ms-flex-align: start;
           align-items: start;
   gap: 10px;
+  width: 100%;
 }
 .create-employee-container form .labels-divs .label-input {
   text-align: start;
@@ -105,6 +106,10 @@ This modal is easy to custom, according more freedom to the designers and the de
 }
 .create-employee-container form .labels-divs .label-input .error-message {
   color: red;
+}
+.create-employee-container form input {
+  width: 170px;
+  padding-left: 10px;
 }
 .create-employee-container form .address {
   text-align: start;
