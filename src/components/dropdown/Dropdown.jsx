@@ -18,6 +18,11 @@ const customStyles = {
       
     }
   }),
+  indicatorSeparator: (baseStyles) => ({
+    ...baseStyles,
+    marginTop: 10,
+    marginBottom: 10
+  })
 }
 
 function DropdownComponent({ id, label, options, isLoading, isDisabled, onChange }) {
@@ -31,6 +36,7 @@ function DropdownComponent({ id, label, options, isLoading, isDisabled, onChange
         onChange={onChange}
         placeholder={`Select a ${label.toLowerCase()}`}
         getOptionLabel={(e) => e.label}
+        menuPlacement="auto"
         styles={customStyles}
     />
   )
