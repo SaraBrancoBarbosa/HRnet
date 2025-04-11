@@ -1,12 +1,17 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
+import EmployeeContext from "../../api/employee-context/ApiContext"
 import ModalComponent from "../../components/modal/Modal"
 import DatePickerComponent from "../../components/datepicker/Datepicker"
-import "./createEmployee.css"
 import useFetchStates from "../../api/useFetchStates"
 import useFetchDepartments from "../../api/useFetchDepartments"
+import DropdownComponent from "../../components/dropdown/Dropdown"
+import "./createEmployee.css"
 
 function CreateEmployeePage() {
+
+  // To get the addEmployee function from the API
+  const { addEmployee } = useContext(EmployeeContext)
 
   // Form management with react-hook-form
   const { 
@@ -31,7 +36,25 @@ function CreateEmployeePage() {
   const onSubmit = async (data) => {
     // Timeout for the user to know that the submit is loading
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    console.log(data)
+    
+    // To create a new employee using the form data
+    const newEmployee = {
+      firstName: data["first-name"],
+      lastName: data["last-name"],
+      dateOfBirth: dateOfBirth,
+      startDate: startDate,
+      street: data["street"],
+      city: data["city"],
+      state: data["state"],
+      zipCode: data["zip-code"],
+      department: data["department"],
+      // The timestamp is the employee's unique ID
+      id: Date.now()
+    }
+
+    // Then this new employee is added to the list by using the API
+    addEmployee(newEmployee)
+    
     setModalIsOpen(true)
   }
 
@@ -42,7 +65,7 @@ function CreateEmployeePage() {
   }
 
   function closeModal() {
-    setModalIsOpen(false);
+    setModalIsOpen(false)
   }
 
   return (
@@ -71,6 +94,7 @@ function CreateEmployeePage() {
               })} 
               type="text" 
               id="first-name"
+              placeholder="Enter the first name"
             />
             {errors["first-name"] && (
               <div className="error-message">{errors["first-name"].message}</div>
@@ -94,6 +118,7 @@ function CreateEmployeePage() {
               })} 
               type="text" 
               id="last-name"
+              placeholder="Enter the last name"
             />
             {errors["last-name"] && (
               <div className="error-message">{errors["last-name"].message}</div>
@@ -138,6 +163,7 @@ function CreateEmployeePage() {
                     {...register("street", { required: "The street address is required." })}
                     id="street" 
                     type="text"
+                    placeholder="Enter the street"
                   />
                   {errors["street"] && (
                     <div className="error-message">{errors["street"].message}</div>
@@ -161,6 +187,7 @@ function CreateEmployeePage() {
                     })}
                     id="city" 
                     type="text"
+                    placeholder="Enter the city"
                   />
                   {errors["city"] && (
                     <div className="error-message">{errors["city"].message}</div>
@@ -170,21 +197,25 @@ function CreateEmployeePage() {
                 {/* State */}
                 <div className="label-input">
                   <label htmlFor="state">State</label>
-                  <select 
-                    {...register("state", { required: "The state address is required." })} 
-                    name="state" 
-                    id="state"
-                  >
-                    <option value="" disabled selected>Select a state</option>
-                    {/* The fetched states with the loading, error and loaded management */}
-                    {loadingStates && <option>Loading states...</option>}
-                    {errorStates && <option>{errorStates}</option>}
-                    {loadedStates && states.map((state) => (
-                      <option key={state.name} value={state.name}>
-                        {state.name}
-                      </option>
-                    ))}
-                  </select>
+                    <DropdownComponent
+                      id="state"
+                      label="State"
+                      options={!errorStates && states.map(state => ({
+                        label: state.name,
+                        value: state.name
+                      }))}
+                      isLoading={loadingStates}
+                      isDisabled={isSubmitting || !loadedStates}
+                      onChange={(selectedOption) => {
+                        setValue("state", selectedOption ? selectedOption.value : "")
+                      }}
+                      /*
+                      ref={register({
+                        required: "The state address is required."
+                      })}
+                      */
+                    />
+                   
                   {errors["state"] && (
                     <div className="error-message">{errors["state"].message}</div>
                   )}
@@ -203,6 +234,7 @@ function CreateEmployeePage() {
                     })}
                     id="zip-code" 
                     type="text"
+                    placeholder="Enter the zip code"
                   />
                   {errors["zip-code"] && (
                     <div className="error-message">{errors["zip-code"].message}</div>
@@ -214,21 +246,24 @@ function CreateEmployeePage() {
             {/* Department */}
             <div className="label-input">
               <label htlmfor="department">Department</label>
-              <select 
-                {...register("department", { required: "The department is required." })}
-                name="department" 
-                id="department"
-              >
-                <option value="" disabled selected>Select a department</option>
-                {/* The fetched departments with the loading, error and loaded management */}
-                {loadingDepartments && <option>Loading departments...</option>}
-                {errorDepartments && <option>{errorDepartments}</option>}
-                {loadedDepartments && departments.map((department) => (
-                  <option key={department.name} value={department.name}>
-                    {department.name}
-                  </option>
-                ))}
-              </select>
+                <DropdownComponent
+                  id="department"
+                  label="Department"
+                  options={!errorDepartments && departments.map(department => ({
+                    label: department.name,
+                    value: department.name
+                  }))}
+                  isLoading={loadingDepartments}
+                  isDisabled={isSubmitting || !loadedDepartments}
+                  onChange={(selectedOption) => {
+                    setValue("department", selectedOption ? selectedOption.value : "")
+                  }}
+                  /*
+                  ref={register({
+                    required: "The department is required."
+                  })}
+                  */
+                />
               {errors["department"] && (
                 <div className="error-message">{errors["department"].message}</div>
               )}
