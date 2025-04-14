@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import EmployeeContext from "../../api/employee-context/ApiContext"
 import ModalComponent from "../../components/modal/Modal"
 import DatePickerComponent from "../../components/datepicker/Datepicker"
@@ -16,8 +16,8 @@ function CreateEmployeePage() {
   // Form management with react-hook-form
   const { 
     register, 
+    control,
     handleSubmit, 
-    setValue, 
     formState: { errors, isSubmitting } } = useForm()
 
   // Modal management
@@ -56,12 +56,6 @@ function CreateEmployeePage() {
     addEmployee(newEmployee)
     
     setModalIsOpen(true)
-  }
-
-  // Setting values for date pickers with react-hook-form
-  const handleDateChange = (name, setter, date) => {
-    setter(date)
-    setValue(name, date)
   }
 
   function closeModal() {
@@ -127,26 +121,47 @@ function CreateEmployeePage() {
 
           {/* The 2 datepickers: Date of birth and Start date */}
           <div className="label-input">
-            <DatePickerComponent 
-              selectedDate={dateOfBirth}
-              onChange={(date) => handleDateChange("date-of-birth", setDateOfBirth, date)}
-              id="date-of-birth"
-              label="Date of Birth"
-              //{...register("date-of-birth", { required: "The date of birth is required." })}
-            />
+          {/* Controller is used for customised components (libraries) */}
+          <Controller
+            name="date-of-birth"
+            control={control}
+            rules={{ required: "The date of birth is required." }}
+            render={({ field }) => (
+              <DatePickerComponent
+                {...field}
+                selectedDate={dateOfBirth}
+                onChange={(date) => {
+                  field.onChange(date)
+                  setDateOfBirth(date)
+                }}
+                id="date-of-birth"
+                label="Date of Birth"
+              />
+            )}
+          />
             {errors["date-of-birth"] && (
               <div className="error-message">{errors["date-of-birth"].message}</div>
             )}
           </div>
 
           <div className="label-input">
-            <DatePickerComponent 
-              selectedDate={startDate}
-              onChange={(date) => handleDateChange("startDate", setStartDate, date)}
-              id="start-date"
-              label="Start Date"
-              //{...register("start-date", { required: "The starting date is required." })}
-            />
+          <Controller
+            name="start-date"
+            control={control}
+            rules={{ required: "The starting date is required." }}
+            render={({ field }) => (
+              <DatePickerComponent
+                {...field}
+                selectedDate={startDate}
+                onChange={(date) => {
+                  field.onChange(date)
+                  setStartDate(date)
+                }}
+                id="start-date"
+                label="Start Date"
+              />
+            )}
+          />
             {errors["start-date"] && (
               <div className="error-message">{errors["start-date"].message}</div>
             )}
@@ -197,24 +212,25 @@ function CreateEmployeePage() {
                 {/* State */}
                 <div className="label-input">
                   <label htmlFor="state">State</label>
-                    <DropdownComponent
-                      id="state"
-                      label="State"
-                      options={!errorStates && states.map(state => ({
-                        label: state.name,
-                        value: state.name
-                      }))}
-                      isLoading={loadingStates}
-                      isDisabled={isSubmitting || !loadedStates}
-                      onChange={(selectedOption) => {
-                        setValue("state", selectedOption ? selectedOption.value : "")
-                      }}
-                      /*
-                      ref={register({
-                        required: "The state address is required."
-                      })}
-                      */
-                    />
+                  <Controller
+                    name="state"
+                    control={control}
+                    rules={{ required: "The state address is required." }}
+                    render={({ field }) => (
+                      <DropdownComponent
+                        {...field}
+                        id="state"
+                        label="State"
+                        options={!errorStates && states.map(state => ({
+                          label: state.name,
+                          value: state.name
+                        }))}
+                        isLoading={loadingStates}
+                        isDisabled={isSubmitting || !loadedStates}
+                        onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : "")}
+                      />
+                    )}
+                  />
                    
                   {errors["state"] && (
                     <div className="error-message">{errors["state"].message}</div>
@@ -246,24 +262,25 @@ function CreateEmployeePage() {
             {/* Department */}
             <div className="label-input">
               <label htlmfor="department">Department</label>
-                <DropdownComponent
-                  id="department"
-                  label="Department"
-                  options={!errorDepartments && departments.map(department => ({
-                    label: department.name,
-                    value: department.name
-                  }))}
-                  isLoading={loadingDepartments}
-                  isDisabled={isSubmitting || !loadedDepartments}
-                  onChange={(selectedOption) => {
-                    setValue("department", selectedOption ? selectedOption.value : "")
-                  }}
-                  /*
-                  ref={register({
-                    required: "The department is required."
-                  })}
-                  */
-                />
+              <Controller
+                name="department"
+                control={control}
+                rules={{ required: "The department is required." }}
+                render={({ field }) => (
+                  <DropdownComponent
+                    {...field}
+                    id="department"
+                    label="Department"
+                    options={!errorDepartments && departments.map(department => ({
+                      label: department.name,
+                      value: department.name
+                    }))}
+                    isLoading={loadingDepartments}
+                    isDisabled={isSubmitting || !loadedDepartments}
+                    onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : "")}
+                  />
+                )}
+              />
               {errors["department"] && (
                 <div className="error-message">{errors["department"].message}</div>
               )}
