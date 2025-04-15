@@ -5,9 +5,9 @@ import "./employeesList.css"
 
 function EmployeesListPage() {
 
-  // On récupère les employés du Context
+  // To get the employees from the Context
   const { employees } = useContext(Context)
-  // On récupère la fonction pour supprimer un employé depuis le Context
+  // Tp get the deleteEmployee function from the Context
   const { deleteEmployee } = useContext(Context)
 
   const columns = [
@@ -23,7 +23,7 @@ function EmployeesListPage() {
     "Delete"
   ]
 
-  // Les données des employés
+  // The employees data
   const data = employees.map((employee) => [
     employee.firstName,
     employee.lastName,
@@ -37,6 +37,9 @@ function EmployeesListPage() {
     employee.id,
   ])
 
+  // The columns we are using for the "search" filter: firstName and lastName (maybe add other categories?)
+  const filterableColumns = [0, 1]
+
   return (
     <div className="employee-list-container">
       <h1>Current Employees</h1>
@@ -48,6 +51,7 @@ function EmployeesListPage() {
         entriesPerPage={""} 
         onPageChange={""}
         deleteData={deleteEmployee}
+        filterableColumns={filterableColumns}
       />
 
     </div>
