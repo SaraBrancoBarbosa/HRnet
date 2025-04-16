@@ -34,7 +34,7 @@ function DropdownComponent({ id, label, options, isLoading, isDisabled, onChange
         isLoading={isLoading}
         isDisabled={isDisabled}
         onChange={onChange}
-        placeholder={`Select a ${label.toLowerCase()}`}
+        placeholder={isLoading ? "Loading..." : `Select a ${label.toLowerCase()}`}
         getOptionLabel={(e) => e.label}
         menuPlacement="auto"
         styles={customStyles}
