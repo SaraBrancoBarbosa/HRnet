@@ -1,34 +1,60 @@
 import PropTypes from "prop-types"
 import "./table.css"
-import { useState } from "react"
+import { Fragment, useState } from "react"
+
+// Conversion des dates 
+Date.prototype.tableDate = function() {
+  const month = (""+(this.getMonth()+1)).padStart(2,"0")
+  const day = (""+this.getDate()).padStart(2,"0")
+  const year = this.getFullYear()
+
+  return [year,month,day].join("/")
+}
+
+// Composant colonne (dans un fichier "column")
+const Column = ({column, value}) => {
+  if(column.type === "date") return value instanceof Date ? value.tableDate() : value.toString()
+  if(column.type === "number") return "" +value
+  if(!(typeof value === "string")) return JSON.stringify(value)
+
+  return value
+}
 
 function TableComponent({ 
   columns, 
-  data, 
-  filterableColumns, 
+  rows,  
   pagination, 
   entriesPerPage, 
   onPageChange, 
-  deleteData 
+  deleteRow 
 }) {
   
   const [filterText, setFilterText] = useState("")
+
+  // Formatage de colonnes (fichier)
+  columns = columns.map(column => {
+    const value = typeof column === "string" ? {name:column, type:"string", visible:true} : {...column, visible:column.visible!==undefined ? column.visible:true}
+
+    return value
+  })
+
+  // Filter seulement sur les colonnes filtrables
+  const filterableColumns = columns.filter(column => column.filterable === true).map((column, index) => index)
 
   // Filter management (search bar)
   const handleFilterChange = (e) => {
     setFilterText(e.target.value)
   }
-
   // To filter the columns's data (search bar)
-  const filteredData = data.filter((dataElement) => {
-    return filterableColumns.some((colIndex) => 
-      dataElement[colIndex].toLowerCase().includes(filterText.toLowerCase())
+  const filteredRows = rows.filter((row) => {
+    return filterableColumns.some((fieldIndex) => 
+      row[fieldIndex].toLowerCase().includes(filterText.toLowerCase())
     )
   })
 
   //To delete the row data
-  const handleDelete = (dataId) => {
-    deleteData(dataId)
+  const handleDelete = (rowId) => {
+    deleteRow?.(rowId)
   }
   
   return (
@@ -75,29 +101,44 @@ function TableComponent({
         <thead>
           <tr role="row">
             {columns.map((column, index) => (
-              <th key={index}>
-                {column}
-              </th>
+              <Fragment key={`column-${index}`}>{column.visible && (
+                <th>
+                  {column.name}
+                </th>
+              )}</Fragment>
             ))}
+            {deleteRow && (
+              <th key="button-delete">
+                Delete
+              </th>
+            )}
           </tr>
         </thead>
 
         {/* To display the data (one row for each group of elements) */}
         <tbody>
-          {filteredData.map((row, index) => (
+          {filteredRows.map((row, index) => (
             <tr key={index} role="row">
-              {/* We "remove" the last column containing the id => the delete button takes its place */}
-              {row.slice(0, -1).map((field, fieldIndex) => (
-                <td key={fieldIndex}>{field}</td>
-              
-                // Without removing the last column:
-                //{row.map((field, fieldIndex) => (
+              {row.map((field, fieldIndex) => (
+                <Fragment key={`row-${fieldIndex}`}>{columns[fieldIndex].visible && (
+                  <td>
+                    <Column column={columns[fieldIndex]} value={field} />
+                  </td>
+                )}</Fragment>
               ))}
 
               {/* Button to delete the row data. The 9th row is used for the data id */}
-              <td>
-                <button onClick={() => handleDelete(row[9])} className="button" style={{alignItems:"center", height:"15px", width:"60px"}}>Delete</button>
-              </td>
+              {deleteRow && (
+                <td>
+                  <button onClick={() => handleDelete(row[9])} 
+                    type="button" 
+                    className="button" 
+                    style={{alignItems:"center", height:"15px", width:"60px"}}
+                  >
+                    X
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
@@ -140,12 +181,12 @@ function TableComponent({
 
 TableComponent.propTypes = {
   columns: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired,
+  rows: PropTypes.array.isRequired,
   filterableColumns: PropTypes.array.isRequired,
   pagination: PropTypes.object.isRequired,
   entriesPerPage: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
-  deleteData: PropTypes.func.isRequired,
+  deleteRow: PropTypes.func.isRequired,
 }
 
 export default TableComponent
