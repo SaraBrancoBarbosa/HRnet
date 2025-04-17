@@ -3,25 +3,25 @@ import Context from "../../api/employee-context/ApiContext"
 import TableComponent from "../../components/table/Table"
 import "./employeesList.css"
 
+const columns = [
+  {name:"First Name", filterable: true},
+  {name:"Last Name", filterable: true},
+  {name:"Date of Birth", type:"date"},
+  "Department",
+  {name:"Start Date", type:"date"},
+  "Street",
+  "City",
+  "State",
+  {name:"Zip Code", type:"number"},
+  {name:"Id", type:"string", visible:false}
+]
+
 function EmployeesListPage() {
 
   // To get the employees from the Context
   const { employees } = useContext(Context)
   // Tp get the deleteEmployee function from the Context
   const { deleteEmployee } = useContext(Context)
-
-  const columns = [
-    "First Name",
-    "Last Name",
-    "Date of Birth",
-    "Department",
-    "Start Date",
-    "Street",
-    "City",
-    "State",
-    "Zip Code",
-    "Delete"
-  ]
 
   // The employees data
   const data = employees.map((employee) => [
@@ -37,21 +37,17 @@ function EmployeesListPage() {
     employee.id,
   ])
 
-  // The columns we are using for the "search" filter: firstName and lastName (maybe add other categories?)
-  const filterableColumns = [0, 1]
-
   return (
     <div className="employee-list-container">
       <h1>Current Employees</h1>
 
       <TableComponent 
         columns={columns} 
-        data={data} 
+        rows={data} 
         pagination={""} 
         entriesPerPage={""} 
         onPageChange={""}
-        deleteData={deleteEmployee}
-        filterableColumns={filterableColumns}
+        deleteRow={deleteEmployee}
       />
 
     </div>
