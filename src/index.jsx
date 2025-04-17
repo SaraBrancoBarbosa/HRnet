@@ -5,9 +5,11 @@ import App from "./App.jsx"
 import Modal from "react-modal"
 import "./index.css"
 
-Modal.setAppElement("#root")
+const root = document.getElementById("root")
 
-createRoot(document.getElementById("root")).render(
+Modal.setAppElement(root)
+
+createRoot(root).render(
   <StrictMode>
     <ApiProviderEmployees>
       <App />
