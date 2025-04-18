@@ -17,8 +17,10 @@ function CreateEmployeePage() {
   const { 
     register, 
     control,
-    handleSubmit, 
-    formState: { errors, isSubmitting } } = useForm()
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting } 
+  } = useForm()
 
   // Modal management
   const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -56,6 +58,7 @@ function CreateEmployeePage() {
     addEmployee(newEmployee)
     
     setModalIsOpen(true)
+    reset()
   }
 
   function closeModal() {
@@ -293,8 +296,14 @@ function CreateEmployeePage() {
         
       </form>
 
-       {/* Modal component after submitting a new employee */}
-       <ModalComponent isOpen={modalIsOpen} onRequestClose={closeModal} />
+      {/* Modal component after submitting a new employee */}
+      <ModalComponent 
+        isOpen={modalIsOpen} 
+        onRequestClose={closeModal}
+        title="Employee created!"
+      >
+        <button className="button" onClick={closeModal}>Close</button>
+      </ModalComponent>
 
     </div>
   )
