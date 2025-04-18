@@ -16,5 +16,10 @@
         padding: 100px;
         border-radius: 5px;
         background-color: $light-color;
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
     }
 }
