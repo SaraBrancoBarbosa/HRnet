@@ -52,7 +52,7 @@ $modal-color: #92AC203B;
   cursor: pointer;
 
   &:hover {
-    text-decoration: underline;
+    background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
   }
 }
 

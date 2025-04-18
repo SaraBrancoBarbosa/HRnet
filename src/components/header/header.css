@@ -45,7 +45,8 @@ h1, h2 {
   cursor: pointer;
 }
 .button:hover {
-  text-decoration: underline;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, 0.4)));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
 }
 
 /***** Breakpoints for responsive design *****/
