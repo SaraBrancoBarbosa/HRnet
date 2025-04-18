@@ -1,8 +1,9 @@
 import PropTypes from "prop-types"
-import "./table.css"
 import { Fragment, useState } from "react"
+import ModalComponent from "../modal/Modal"
+import "./table.css"
 
-// Conversion des dates 
+// Date conversion 
 Date.prototype.tableDate = function() {
   const month = (""+(this.getMonth()+1)).padStart(2,"0")
   const day = (""+this.getDate()).padStart(2,"0")
@@ -11,7 +12,7 @@ Date.prototype.tableDate = function() {
   return [year,month,day].join("/")
 }
 
-// Composant colonne (dans un fichier "column")
+// Column component
 const Column = ({column, value}) => {
   if(column.type === "date") return value instanceof Date ? value.tableDate() : value.toString()
   if(column.type === "number") return "" +value
@@ -31,14 +32,18 @@ function TableComponent({
   
   const [filterText, setFilterText] = useState("")
 
-  // Formatage de colonnes (fichier)
+  // For the "confirm deletion" modal
+  const [rowToDelete, setRowToDelete] = useState(null)
+
+  // To format the columns
   columns = columns.map(column => {
-    const value = typeof column === "string" ? {name:column, type:"string", visible:true} : {...column, visible:column.visible!==undefined ? column.visible:true}
+    const value = typeof column === "string"
+      ? {name: column, type: "string", visible:true} 
+      : {...column, visible: column.visible !== undefined ? column.visible: true}
 
     return value
   })
 
-  // Filter seulement sur les colonnes filtrables
   const filterableColumns = columns.filter(column => column.filterable === true).map((column, index) => index)
 
   // Filter management (search bar)
@@ -52,11 +57,19 @@ function TableComponent({
     )
   })
 
-  //To delete the row data
-  const handleDelete = (rowId) => {
-    deleteRow?.(rowId)
+  // To leave the delete modal without deleting the data
+  const handleCancelDelete = () => {
+    setRowToDelete(null)
   }
-  
+
+  // To delete the row data
+  const handleDeleteConfirm = () => {
+    if (rowToDelete !== null) {
+      deleteRow(rowToDelete)
+      setRowToDelete(null)
+    }
+  }
+
   return (
     <div className="table_wrapper">
 
@@ -118,7 +131,7 @@ function TableComponent({
         {/* To display the data (one row for each group of elements) */}
         <tbody>
           {filteredRows.map((row, index) => (
-            <tr key={index} role="row">
+            <tr key={index} role="row" className="row">
               {row.map((field, fieldIndex) => (
                 <Fragment key={`row-${fieldIndex}`}>{columns[fieldIndex].visible && (
                   <td>
@@ -130,10 +143,10 @@ function TableComponent({
               {/* Button to delete the row data. The 9th row is used for the data id */}
               {deleteRow && (
                 <td>
-                  <button onClick={() => handleDelete(row[9])} 
+                  {/* Opens the "confirm deletion" modal */}
+                  <button onClick={() => setRowToDelete(row[9])} 
                     type="button" 
-                    className="button" 
-                    style={{alignItems:"center", height:"15px", width:"60px"}}
+                    className="button button-delete" 
                   >
                     X
                   </button>
@@ -175,7 +188,21 @@ function TableComponent({
           
         </div>
       </div>
+
+      {/* Modal when deleting an employee: confirm deletion */}
+      <ModalComponent
+        //To open the modal only when a row is going to be deleted
+        isOpen={rowToDelete !== null}
+        onRequestClose={handleCancelDelete}
+        title="Confirm Deletion"
+        message="Are you sure you want to definitely delete this employee?"
+      >
+        <button onClick={handleDeleteConfirm} className="button" style={{backgroundColor:"red"}}>Delete</button>
+        <button onClick={handleCancelDelete} className="button">Cancel</button>
+      </ModalComponent>
+
     </div>
+    
   )
 }
 

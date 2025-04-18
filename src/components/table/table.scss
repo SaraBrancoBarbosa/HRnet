@@ -14,4 +14,14 @@
         display: flex;
         justify-content: space-between;
     }
+
+    .row {
+        height: 35px;
+    }
+
+    .button-delete {
+        align-items: center;
+        height: 15px;
+        width: 60px;
+    }
 }

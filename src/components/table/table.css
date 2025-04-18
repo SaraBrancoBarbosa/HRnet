@@ -25,4 +25,14 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+.table_wrapper .row {
+  height: 35px;
+}
+.table_wrapper .button-delete {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 15px;
+  width: 60px;
 }/*# sourceMappingURL=table.css.map */
