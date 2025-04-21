@@ -57,8 +57,24 @@ function CreateEmployeePage() {
     // Then this new employee is added to the list by using the API
     addEmployee(newEmployee)
     
-    setModalIsOpen(true)
-    reset()
+    // To be sure all the elements are reseted correctly after submission
+    reset({
+    "first-name": "",
+    "last-name": "",
+    "date-of-birth": null,
+    "start-date": null,
+    "street": "",
+    "city": "",
+    "state": null,
+    "zip-code": "",
+    "department": null
+  })
+  
+  // To reinitialise the components value (DatePickers)
+  setDateOfBirth(null)
+  setStartDate(null)
+  
+  setModalIsOpen(true)
   }
 
   function closeModal() {
@@ -132,13 +148,13 @@ function CreateEmployeePage() {
             render={({ field }) => (
               <DatePickerComponent
                 {...field}
+                id="date-of-birth"
+                label="Date of Birth"
                 selectedDate={dateOfBirth}
                 onChange={(date) => {
                   field.onChange(date)
                   setDateOfBirth(date)
                 }}
-                id="date-of-birth"
-                label="Date of Birth"
               />
             )}
           />
@@ -155,13 +171,13 @@ function CreateEmployeePage() {
             render={({ field }) => (
               <DatePickerComponent
                 {...field}
+                id="start-date"
+                label="Start Date"
                 selectedDate={startDate}
                 onChange={(date) => {
                   field.onChange(date)
                   setStartDate(date)
                 }}
-                id="start-date"
-                label="Start Date"
               />
             )}
           />
@@ -230,11 +246,10 @@ function CreateEmployeePage() {
                         }))}
                         isLoading={loadingStates}
                         isDisabled={isSubmitting || !loadedStates}
-                        onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : "")}
+                        clearValue={modalIsOpen}
                       />
                     )}
                   />
-                   
                   {errors["state"] && (
                     <div className="error-message">{errors["state"].message}</div>
                   )}
@@ -280,7 +295,7 @@ function CreateEmployeePage() {
                     }))}
                     isLoading={loadingDepartments}
                     isDisabled={isSubmitting || !loadedDepartments}
-                    onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : "")}
+                    clearValue={modalIsOpen}
                   />
                 )}
               />
