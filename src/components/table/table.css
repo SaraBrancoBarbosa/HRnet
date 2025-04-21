@@ -1,3 +1,55 @@
+/**** Bases ****/
+* {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  width: 100%;
+  min-height: 100dvh;
+  text-align: center;
+  margin: 0 auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+/***** Variables *****/
+/***** Button *****/
+.button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 115px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  color: white;
+  background-color: #92AC20;
+  cursor: pointer;
+}
+.button:hover {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, 0.4)));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
+}
+
+/***** Breakpoints for responsive design *****/
 .table_wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9,30 +61,51 @@
   width: 100%;
   max-width: 1000px;
   gap: 30px;
+  overflow-x: auto;
 }
-.table_wrapper .entries-and-search {
+.table_wrapper .entries-and-search, .table_wrapper .info-and-pagination {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-.table_wrapper .info-and-pagination {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+.table_wrapper table {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
 }
-.table_wrapper .row {
+.table_wrapper table .row {
   height: 35px;
 }
-.table_wrapper .button-delete {
+.table_wrapper table .row td {
+  padding: 5px 8px;
+}
+.table_wrapper table .button-delete {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   height: 15px;
   width: 60px;
+}
+@media screen and (max-width: 385px) {
+  .table_wrapper .entries-and-search, .table_wrapper .info-and-pagination {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: start;
+    gap: 20px;
+  }
 }/*# sourceMappingURL=table.css.map */

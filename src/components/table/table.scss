@@ -1,27 +1,46 @@
+@import "../../index";
+
 .table_wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 1000px;
     gap: 30px;
+    overflow-x: auto;
 
-    .entries-and-search {
+    .entries-and-search, .info-and-pagination {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
     }
 
-    .info-and-pagination {
-        display: flex;
-        justify-content: space-between;
-    }
+    table {
+        display: block;
+        max-width: 100%; 
+        width: 100%;
+        overflow-x: auto;
 
-    .row {
-        height: 35px;
+        .row {
+            height: 35px;
+            
+            td {
+                padding: 5px 8px;
+            }
+        }
+    
+        .button-delete {
+            align-items: center;
+            height: 15px;
+            width: 60px;
+        }
     }
-
-    .button-delete {
-        align-items: center;
-        height: 15px;
-        width: 60px;
-    }
+    
+    @media screen and (max-width: 385px) {
+        .entries-and-search, .info-and-pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 20px;
+        }      
+    }    
 }

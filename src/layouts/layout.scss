@@ -2,7 +2,6 @@
 
 .width-margin {
     max-width: 1440px;
-    //width: 100%;
     margin: 0 auto;
     min-height: calc(100dvh - 209px);
 } 
@@ -14,7 +13,6 @@
 
     & main {
         min-height: max(100dvh - 422px, 400px);
-        //width: 100%;
     }   
 }
 
