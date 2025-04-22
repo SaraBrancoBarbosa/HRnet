@@ -1,6 +1,9 @@
 import PropTypes from "prop-types"
 import { Fragment, useState } from "react"
 import ModalComponent from "../modal/Modal"
+import SearchBar from "./SearchBar"
+import Pagination from "./Pagination"
+import ShowEntriesOptions from "./ShowEntriesOptions"
 import "./table.css"
 
 // Date conversion 
@@ -96,34 +99,12 @@ function TableComponent({
 
       <div className="entries-and-search">
         {/* To choose the number of entries to show per page */}
-        <div>
-          <label>
-            Show {" "}
-            <select
-              value={rowsPerPage}
-              onChange={handleRowsPerPageChange}
-            >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>{" "}
-            entries
-          </label>
-        </div>
-
+        <ShowEntriesOptions
+          rowsPerPage={rowsPerPage} handleRowsPerPageChange={handleRowsPerPageChange}
+        />
+        
         {/* Search bar */}
-        <div>
-          <label>
-            Search: {" "}
-            <input 
-              type="search" 
-              placeholder="" 
-              value={filterText} 
-              onChange={handleFilterChange}
-            />
-          </label>
-        </div>
+        <SearchBar filterText={filterText} handleFilterChange={handleFilterChange} />
       </div>
 
       {/* Table */}
@@ -178,38 +159,14 @@ function TableComponent({
 
       {/* Pagination */}
       <div className="info-and-pagination">
-
-        {/* To know the number of entries showing / total */}
-        <div>
-          Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, totalRows)} of {totalRows} entries
-        </div>
-
-        {/* Previous and next page + the current page */}
-        <nav className="table-pagination">
-          <a
-            onClick={() => {
-              // To forbid the click when on the first page
-              if (currentPage > 1) handleChangePage(currentPage - 1)
-            }}
-            className={currentPage === 1 ? "disabled" : "change-page"}
-          >
-            Previous
-          </a>
-
-          <span className="current-page">
-            {currentPage}
-          </span>
-
-          <a 
-            // To forbid the click when on the last page
-            onClick={() => {
-              if (currentPage < pageNumbers.length) handleChangePage(currentPage + 1)
-            }}
-            className={currentPage === pageNumbers.length ? "disabled" : "change-page"}
-          >
-            Next
-          </a>
-        </nav>
+          <Pagination
+            indexOfFirstRow={indexOfFirstRow}
+            indexOfLastRow={indexOfLastRow}
+            totalRows={totalRows}
+            currentPage={currentPage}
+            pageNumbers={pageNumbers}
+            handleChangePage={handleChangePage}
+          />
       </div>
 
       {/* Modal when deleting an employee: confirm deletion */}
