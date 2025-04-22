@@ -46,18 +46,29 @@
         max-width: 100%; 
         width: 100%;
         overflow-x: auto;
+        border-collapse: collapse;
 
         th {
-            min-width: 95px;
+            min-width: 98px;
+            padding: 10px 0;
         }
 
         .row {
             height: 35px;
             text-align: start;
+
+            &:nth-child(odd){
+                background-color: $tertiary-color;
+            }
+
+            &:nth-child(even){
+                background-color: white;
+            }
             
             td {
                 padding: 0 5px;
                 height: 50px;
+                width: 98px;
             } 
         }
     
