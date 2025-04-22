@@ -74,6 +74,33 @@ h1, h2 {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.table_wrapper .entries-and-search .table-pagination, .table_wrapper .info-and-pagination .table-pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 20px;
+}
+.table_wrapper .entries-and-search .table-pagination .current-page, .table_wrapper .info-and-pagination .table-pagination .current-page {
+  padding: 2px 6px;
+  background-color: #92AC20;
+  color: white;
+  border-radius: 5px;
+}
+.table_wrapper .entries-and-search .table-pagination .change-page, .table_wrapper .info-and-pagination .table-pagination .change-page {
+  cursor: pointer;
+}
+.table_wrapper .entries-and-search .table-pagination .disabled, .table_wrapper .info-and-pagination .table-pagination .disabled {
+  color: grey;
+}
+.table_wrapper .entries-and-search .table-pagination .disabled:hover, .table_wrapper .info-and-pagination .table-pagination .disabled:hover {
+  text-decoration: none;
 }
 .table_wrapper table {
   display: block;
@@ -81,11 +108,16 @@ h1, h2 {
   width: 100%;
   overflow-x: auto;
 }
+.table_wrapper table th {
+  min-width: 95px;
+}
 .table_wrapper table .row {
   height: 35px;
+  text-align: start;
 }
 .table_wrapper table .row td {
-  padding: 5px 8px;
+  padding: 0 5px;
+  height: 50px;
 }
 .table_wrapper table .button-delete {
   -webkit-box-align: center;

@@ -23,17 +23,18 @@ const Column = ({column, value}) => {
 
 function TableComponent({ 
   columns, 
-  rows,  
-  pagination, 
-  entriesPerPage, 
-  onPageChange, 
+  rows,   
   deleteRow 
 }) {
   
   const [filterText, setFilterText] = useState("")
 
-  // For the "confirm deletion" modal
+  // To open the "confirm deletion" modal
   const [rowToDelete, setRowToDelete] = useState(null)
+
+  // Pagination management
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage] = useState(10)
 
   // To format the columns
   columns = columns.map(column => {
@@ -56,6 +57,20 @@ function TableComponent({
       row[fieldIndex].toLowerCase().includes(filterText.toLowerCase())
     )
   })
+
+  // To get the current rows
+  const indexOfLastRow = currentPage * rowsPerPage
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage
+  const currentRows = filteredRows.slice(indexOfFirstRow, indexOfLastRow)
+
+  const pageNumbers = []
+  const totalRows = filteredRows.length
+  for(let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
+    pageNumbers.push(i)
+  }
+
+  // Change page
+  const handleChangePage = (pageNumber) => setCurrentPage(pageNumber)
 
   // To leave the delete modal without deleting the data
   const handleCancelDelete = () => {
@@ -80,8 +95,8 @@ function TableComponent({
             Show {" "}
             <select
               name="table_length"
-              value={entriesPerPage}
-              onChange={(e) => onPageChange(e.target.value)}
+              value
+              onChange={() => ""}
 
             >
               <option value="10">10</option>
@@ -130,7 +145,7 @@ function TableComponent({
 
         {/* To display the data (one row for each group of elements) */}
         <tbody>
-          {filteredRows.map((row, index) => (
+          {currentRows.map((row, index) => (
             <tr key={index} role="row" className="row">
               {row.map((field, fieldIndex) => (
                 <Fragment key={`row-${fieldIndex}`}>{columns[fieldIndex].visible && (
@@ -142,7 +157,7 @@ function TableComponent({
 
               {/* Button to delete the row data. The 9th row is used for the data id */}
               {deleteRow && (
-                <td>
+                <td style={{display:"flex", alignItems: "center", justifyContent: "center"}}>
                   {/* Opens the "confirm deletion" modal */}
                   <button onClick={() => setRowToDelete(row[9])} 
                     type="button" 
@@ -161,32 +176,36 @@ function TableComponent({
       <div className="info-and-pagination">
 
         {/* To know the number of entries showing / total */}
-        <div id="table_info" role="status" aria-live="polite">
-          Showing {pagination.start} to {pagination.end} of {pagination.total} entries
+        <div id="table_info">
+          Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, totalRows)} of {totalRows} entries
         </div>
 
         {/* Previous and next page + the current page */}
-        <div id="table_paginate">
+        <nav className="table-pagination">
           <a
-            onClick={() => onPageChange(pagination.prevPage)}
-            id="table_previous"
+            onClick={() => {
+              // To forbid the click when on the first page
+              if (currentPage > 1) handleChangePage(currentPage - 1)
+            }}
+            className={currentPage === 1 ? "disabled" : "change-page"}
           >
             Previous
           </a>
 
-          <span>
-            <a onClick={() => onPageChange(pagination.nextPage)}>
-              {pagination.currentPage}
-            </a>
+          <span id="current_page" className="current-page">
+            {currentPage}
           </span>
 
-          <a onClick={() => onPageChange(pagination.nextPage)} 
-            id="table_next"
+          <a 
+            // To forbid the click when on the last page
+            onClick={() => {
+              if (currentPage < pageNumbers.length) handleChangePage(currentPage + 1)
+            }}
+            className={currentPage === pageNumbers.length ? "disabled" : "change-page"}
           >
             Next
           </a>
-          
-        </div>
+        </nav>
       </div>
 
       {/* Modal when deleting an employee: confirm deletion */}
@@ -209,10 +228,6 @@ function TableComponent({
 TableComponent.propTypes = {
   columns: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
-  filterableColumns: PropTypes.array.isRequired,
-  pagination: PropTypes.object.isRequired,
-  entriesPerPage: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
   deleteRow: PropTypes.func.isRequired,
 }
 
