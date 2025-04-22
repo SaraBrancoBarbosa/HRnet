@@ -34,7 +34,7 @@ function TableComponent({
 
   // Pagination management
   const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
   // To format the columns
   columns = columns.map(column => {
@@ -69,8 +69,14 @@ function TableComponent({
     pageNumbers.push(i)
   }
 
-  // Change page
+  // To change the page
   const handleChangePage = (pageNumber) => setCurrentPage(pageNumber)
+
+  // To handle the entries to show
+  const handleRowsPerPageChange = (e) => {
+    setRowsPerPage(Number(e.target.value))
+    setCurrentPage(1)
+  }
 
   // To leave the delete modal without deleting the data
   const handleCancelDelete = () => {
@@ -88,16 +94,14 @@ function TableComponent({
   return (
     <div className="table_wrapper">
 
-      {/* To choose the number of entries to show per page */}
       <div className="entries-and-search">
-        <div id="table_length">
+        {/* To choose the number of entries to show per page */}
+        <div>
           <label>
             Show {" "}
             <select
-              name="table_length"
-              value
-              onChange={() => ""}
-
+              value={rowsPerPage}
+              onChange={handleRowsPerPageChange}
             >
               <option value="10">10</option>
               <option value="25">25</option>
@@ -109,7 +113,7 @@ function TableComponent({
         </div>
 
         {/* Search bar */}
-        <div id="table_filter">
+        <div>
           <label>
             Search: {" "}
             <input 
@@ -123,7 +127,7 @@ function TableComponent({
       </div>
 
       {/* Table */}
-      <table id="table" role="grid">
+      <table role="grid">
         
         {/* Columns names (first row) */}
         <thead>
@@ -176,7 +180,7 @@ function TableComponent({
       <div className="info-and-pagination">
 
         {/* To know the number of entries showing / total */}
-        <div id="table_info">
+        <div>
           Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, totalRows)} of {totalRows} entries
         </div>
 
@@ -192,7 +196,7 @@ function TableComponent({
             Previous
           </a>
 
-          <span id="current_page" className="current-page">
+          <span className="current-page">
             {currentPage}
           </span>
 
