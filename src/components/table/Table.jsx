@@ -39,6 +39,9 @@ function TableComponent({
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
+  // Sort management
+  const [sort, setSort] = useState({ dataToSort: columns, direction: "asc" })
+
   // To format the columns
   columns = columns.map(column => {
     const value = typeof column === "string"
@@ -53,6 +56,7 @@ function TableComponent({
   // Filter management (search bar)
   const handleFilterChange = (e) => {
     setFilterText(e.target.value)
+    setCurrentPage(1)
   }
   // To filter the columns's data (search bar)
   const filteredRows = rows.filter((row) => {
@@ -94,6 +98,22 @@ function TableComponent({
     }
   }
 
+  // Sort
+  const handleColumnSort = () => {
+    setSort({
+      dataToSort: filterableColumns.name,
+      direction:
+        filterableColumns.name === sort.dataToSort ? sort.direction === "asc" ? "desc" : "asc" : "desc"
+    })
+  }
+
+  const getSortedData = (currentRows) => {
+    if (sort.direction === "asc") {
+      return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? 1 : -1))
+    }
+    return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? -1 : 1))
+  }
+
   return (
     <div className="table_wrapper">
 
@@ -115,8 +135,11 @@ function TableComponent({
           <tr role="row">
             {columns.map((column, index) => (
               <Fragment key={`column-${index}`}>{column.visible && (
-                <th>
+                <th key={index} onClick={() => handleColumnSort(column)}>
                   {column.name}
+                  <span className="sort-symbol">
+                    {sort.dataToSort === column.name ? (sort.direction === "asc" ? " ↑" : " ↓") : " O"}
+                  </span>
                 </th>
               )}</Fragment>
             ))}
@@ -130,7 +153,7 @@ function TableComponent({
 
         {/* To display the data (one row for each group of elements) */}
         <tbody>
-          {currentRows.map((row, index) => (
+          {getSortedData(currentRows).map((row, index) => (
             <tr key={index} role="row" className="row">
               {row.map((field, fieldIndex) => (
                 <Fragment key={`row-${fieldIndex}`}>{columns[fieldIndex].visible && (
@@ -171,7 +194,7 @@ function TableComponent({
 
       {/* Modal when deleting an employee: confirm deletion */}
       <ModalComponent
-        //To open the modal only when a row is going to be deleted
+        //To open the modal only when a row is about to be deleted
         isOpen={rowToDelete !== null}
         onRequestClose={handleCancelDelete}
         title="Confirm Deletion"

@@ -51,6 +51,11 @@
         th {
             min-width: 98px;
             padding: 10px 0;
+
+            .sort-symbol {
+                color: $primary-color;
+                cursor: pointer;
+            }
         }
 
         .row {

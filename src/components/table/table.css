@@ -113,6 +113,10 @@ h1, h2 {
   min-width: 98px;
   padding: 10px 0;
 }
+.table_wrapper table th .sort-symbol {
+  color: #92AC20;
+  cursor: pointer;
+}
 .table_wrapper table .row {
   height: 35px;
   text-align: start;
