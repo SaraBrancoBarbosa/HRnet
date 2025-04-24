@@ -3,7 +3,7 @@ import Context from "../../api/employee-context/ApiContext"
 import TableComponent from "../../components/table/Table"
 import "./employeesList.css"
 
-const columns = [
+const headers = [
   {name:"First Name", filterable: true},
   {name:"Last Name", filterable: true},
   {name:"Date of Birth", type:"date"},
@@ -35,7 +35,7 @@ function EmployeesListPage() {
   const mergedEmployees = [...employees, ...mockedEmployees]
 
   // The employees data => mergedEmployees will be "employees" once the mocked data are deleted
-  const data = mergedEmployees.map((employee) => [
+    const data = mergedEmployees.map((employee) => [
     employee.firstName,
     employee.lastName,
     employee.dateOfBirth,
@@ -47,17 +47,14 @@ function EmployeesListPage() {
     employee.zipCode,
     employee.id,
   ])
-  
+
   return (
     <div className="employee-list-container">
       <h1>Current Employees</h1>
 
       <TableComponent 
-        columns={columns} 
+        headers={headers} 
         rows={data} 
-        pagination={""} 
-        entriesPerPage={""} 
-        onPageChange={""}
         deleteRow={deleteEmployee}
       />
 
