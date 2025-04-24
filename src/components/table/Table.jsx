@@ -1,8 +1,9 @@
 import PropTypes from "prop-types"
-import { Fragment, useState } from "react"
+import { Fragment, useCallback, useMemo, useState } from "react"
 import ModalComponent from "../modal/Modal"
 import SearchBar from "./SearchBar"
-import Pagination from "./Pagination"
+import usePagination from "./pagination/usePagination"
+import Pagination from "./pagination/Pagination"
 import ShowEntriesOptions from "./ShowEntriesOptions"
 import "./table.css"
 
@@ -24,66 +25,84 @@ const Column = ({column, value}) => {
   return value
 }
 
+// Sort indépendant
+const getSortedData = (currentRows, sort) => {
+  if (sort.direction === "asc") {
+    return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? 1 : -1))
+  }
+  return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? -1 : 1))
+}
+
 function TableComponent({ 
-  columns, 
+  headers, 
   rows,   
   deleteRow 
 }) {
   
+  // To format the columns
+  const columnHeaders = useMemo(() => ([
+    {
+      name: "internalIndex", 
+      visible: false,
+      filterable: false,
+      type: "number"
+    },
+    ...headers.map(header => {
+      const value = typeof header === "string"
+        ? {name: header, type: "string", visible:true} 
+        : {...header, visible: header.visible !== undefined ? header.visible: true}
+
+      return value
+    })
+  ]),[headers])
+
+  const filterableColumns = useMemo(() => (
+    columnHeaders.filter(header => header.filterable === true).map((_, index) => index)
+  ), [columnHeaders])
+  
   const [filterText, setFilterText] = useState("")
+
+   // To filter the columns's data (search bar)
+   const filteredRows = useMemo(() => (
+    rows.filter((row) => {
+      return filterableColumns.some((fieldIndex) => 
+        row[fieldIndex].toLowerCase().includes(filterText.toLowerCase())
+      )
+    }).map((row, internalIndex) => ([internalIndex, ...row]))
+  ), [filterText, filterableColumns, rows])
 
   // To open the "confirm deletion" modal
   const [rowToDelete, setRowToDelete] = useState(null)
 
-  // Pagination management
-  const [currentPage, setCurrentPage] = useState(1)
+  // Pagination
   const [rowsPerPage, setRowsPerPage] = useState(10)
-
-  // Sort management
-  const [sort, setSort] = useState({ dataToSort: columns, direction: "asc" })
-
-  // To format the columns
-  columns = columns.map(column => {
-    const value = typeof column === "string"
-      ? {name: column, type: "string", visible:true} 
-      : {...column, visible: column.visible !== undefined ? column.visible: true}
-
-    return value
-  })
-
-  const filterableColumns = columns.filter(column => column.filterable === true).map((column, index) => index)
-
-  // Filter management (search bar)
-  const handleFilterChange = (e) => {
-    setFilterText(e.target.value)
-    setCurrentPage(1)
-  }
-  // To filter the columns's data (search bar)
-  const filteredRows = rows.filter((row) => {
-    return filterableColumns.some((fieldIndex) => 
-      row[fieldIndex].toLowerCase().includes(filterText.toLowerCase())
-    )
-  })
+  const paginationProps = usePagination({itemsPerPage: rowsPerPage, totalItems: filteredRows.length})
+  const {
+    currentItemIndex, 
+    itemsPerPage, 
+    totalItems, 
+    setCurrentPage,
+  } = paginationProps
 
   // To get the current rows
-  const indexOfLastRow = currentPage * rowsPerPage
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage
-  const currentRows = filteredRows.slice(indexOfFirstRow, indexOfLastRow)
+  const currentRows = useMemo(() => (
+   filteredRows.slice(currentItemIndex, Math.min(currentItemIndex + itemsPerPage, totalItems - 1))
+  ), [filteredRows, currentItemIndex, itemsPerPage, totalItems])
 
-  const pageNumbers = []
-  const totalRows = filteredRows.length
-  for(let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
-    pageNumbers.push(i)
-  }
+  // Sort management
+  const [sort, setSort] = useState({ dataToSort: columnHeaders, direction: "asc" })
 
-  // To change the page
-  const handleChangePage = (pageNumber) => setCurrentPage(pageNumber)
+  // Filter management (search bar)
+  const handleFilterChange = useCallback((e) => {
+    setFilterText(e.target.value)
+    setCurrentPage(1)
+  }, [setFilterText, setCurrentPage])
 
   // To handle the entries to show
-  const handleRowsPerPageChange = (e) => {
+  const handleRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value))
-    setCurrentPage(1)
-  }
+    setCurrentPage(0)
+  },[setRowsPerPage, setCurrentPage])
 
   // To leave the delete modal without deleting the data
   const handleCancelDelete = () => {
@@ -107,13 +126,6 @@ function TableComponent({
     })
   }
 
-  const getSortedData = (currentRows) => {
-    if (sort.direction === "asc") {
-      return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? 1 : -1))
-    }
-    return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? -1 : 1))
-  }
-
   return (
     <div className="table_wrapper">
 
@@ -133,7 +145,7 @@ function TableComponent({
         {/* Columns names (first row) */}
         <thead>
           <tr role="row">
-            {columns.map((column, index) => (
+            {columnHeaders.map((column, index) => (
               <Fragment key={`column-${index}`}>{column.visible && (
                 <th key={index} onClick={() => handleColumnSort(column)}>
                   {column.name}
@@ -153,12 +165,12 @@ function TableComponent({
 
         {/* To display the data (one row for each group of elements) */}
         <tbody>
-          {getSortedData(currentRows).map((row, index) => (
+          {getSortedData(currentRows, sort).map((row, index) => (
             <tr key={index} role="row" className="row">
               {row.map((field, fieldIndex) => (
-                <Fragment key={`row-${fieldIndex}`}>{columns[fieldIndex].visible && (
+                <Fragment key={`row-${fieldIndex}`}>{columnHeaders[fieldIndex].visible && (
                   <td>
-                    <Column column={columns[fieldIndex]} value={field} />
+                    <Column column={columnHeaders[fieldIndex]} value={field} />
                   </td>
                 )}</Fragment>
               ))}
@@ -167,7 +179,7 @@ function TableComponent({
               {deleteRow && (
                 <td style={{display:"flex", alignItems: "center", justifyContent: "center"}}>
                   {/* Opens the "confirm deletion" modal */}
-                  <button onClick={() => setRowToDelete(row[9])} 
+                  <button onClick={() => setRowToDelete(row)}
                     type="button" 
                     className="button button-delete" 
                   >
@@ -183,12 +195,7 @@ function TableComponent({
       {/* Pagination */}
       <div className="info-and-pagination">
           <Pagination
-            indexOfFirstRow={indexOfFirstRow}
-            indexOfLastRow={indexOfLastRow}
-            totalRows={totalRows}
-            currentPage={currentPage}
-            pageNumbers={pageNumbers}
-            handleChangePage={handleChangePage}
+            {...paginationProps}
           />
       </div>
 
