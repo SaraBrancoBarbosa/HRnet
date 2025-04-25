@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 function SearchBar({ filterText, handleFilterChange }) {
     
   return (
-    <div>
+    <div style={{padding: 2}}>
         <label>
         Search: {" "}
         <input 
@@ -19,7 +19,7 @@ function SearchBar({ filterText, handleFilterChange }) {
 
 SearchBar.propTypes = {
     filterText: PropTypes.string.isRequired,
-    onFilterChange: PropTypes.func.isRequired,
+    handleFilterChange: PropTypes.func.isRequired,
 }
 
 export default SearchBar

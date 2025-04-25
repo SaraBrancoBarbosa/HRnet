@@ -24,15 +24,6 @@ const Column = ({column, value}) => {
 
   return value
 }
-
-// Sort indépendant
-const getSortedData = (currentRows, sort) => {
-  if (sort.direction === "asc") {
-    return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? 1 : -1))
-  }
-  return currentRows.sort((a, b) => (a[sort.dataToSort] > b[sort.dataToSort] ? -1 : 1))
-}
-
 function TableComponent({ 
   headers, 
   rows,   
@@ -40,13 +31,16 @@ function TableComponent({
 }) {
   
   // To format the columns
+  // useMemo : to memorise the changes and not to recompute all the elements 
   const columnHeaders = useMemo(() => ([
     {
+      // A column for the rows indexation
       name: "internalIndex", 
       visible: false,
       filterable: false,
       type: "number"
     },
+    // Each element is transformed to string type (visible by default)
     ...headers.map(header => {
       const value = typeof header === "string"
         ? {name: header, type: "string", visible:true} 
@@ -56,23 +50,23 @@ function TableComponent({
     })
   ]),[headers])
 
+  // Table containing the filterable columns indexes to extract them 
   const filterableColumns = useMemo(() => (
     columnHeaders.filter(header => header.filterable === true).map((_, index) => index)
   ), [columnHeaders])
   
+  // Search bar text
   const [filterText, setFilterText] = useState("")
 
-   // To filter the columns's data (search bar)
-   const filteredRows = useMemo(() => (
+  // To filter the columns's data (search bar)
+  const filteredRows = useMemo(() => (
     rows.filter((row) => {
       return filterableColumns.some((fieldIndex) => 
         row[fieldIndex].toLowerCase().includes(filterText.toLowerCase())
       )
+    // To add internalIndex to each row once the filter is done
     }).map((row, internalIndex) => ([internalIndex, ...row]))
   ), [filterText, filterableColumns, rows])
-
-  // To open the "confirm deletion" modal
-  const [rowToDelete, setRowToDelete] = useState(null)
 
   // Pagination
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -86,16 +80,13 @@ function TableComponent({
 
   // To get the current rows
   const currentRows = useMemo(() => (
-   filteredRows.slice(currentItemIndex, Math.min(currentItemIndex + itemsPerPage, totalItems - 1))
+   filteredRows.slice(currentItemIndex, Math.min(currentItemIndex + itemsPerPage, totalItems))
   ), [filteredRows, currentItemIndex, itemsPerPage, totalItems])
-
-  // Sort management
-  const [sort, setSort] = useState({ dataToSort: columnHeaders, direction: "asc" })
 
   // Filter management (search bar)
   const handleFilterChange = useCallback((e) => {
     setFilterText(e.target.value)
-    setCurrentPage(1)
+    setCurrentPage(0)
   }, [setFilterText, setCurrentPage])
 
   // To handle the entries to show
@@ -104,6 +95,9 @@ function TableComponent({
     setCurrentPage(0)
   },[setRowsPerPage, setCurrentPage])
 
+  // To open the "confirm deletion" modal
+  const [rowToDelete, setRowToDelete] = useState(null)
+  
   // To leave the delete modal without deleting the data
   const handleCancelDelete = () => {
     setRowToDelete(null)
@@ -115,15 +109,6 @@ function TableComponent({
       deleteRow(rowToDelete)
       setRowToDelete(null)
     }
-  }
-
-  // Sort
-  const handleColumnSort = () => {
-    setSort({
-      dataToSort: filterableColumns.name,
-      direction:
-        filterableColumns.name === sort.dataToSort ? sort.direction === "asc" ? "desc" : "asc" : "desc"
-    })
   }
 
   return (
@@ -147,10 +132,9 @@ function TableComponent({
           <tr role="row">
             {columnHeaders.map((column, index) => (
               <Fragment key={`column-${index}`}>{column.visible && (
-                <th key={index} onClick={() => handleColumnSort(column)}>
+                <th key={index}>
                   {column.name}
                   <span className="sort-symbol">
-                    {sort.dataToSort === column.name ? (sort.direction === "asc" ? " ↑" : " ↓") : " O"}
                   </span>
                 </th>
               )}</Fragment>
@@ -165,7 +149,7 @@ function TableComponent({
 
         {/* To display the data (one row for each group of elements) */}
         <tbody>
-          {getSortedData(currentRows, sort).map((row, index) => (
+          {currentRows.map((row, index) => (
             <tr key={index} role="row" className="row">
               {row.map((field, fieldIndex) => (
                 <Fragment key={`row-${fieldIndex}`}>{columnHeaders[fieldIndex].visible && (
@@ -179,7 +163,7 @@ function TableComponent({
               {deleteRow && (
                 <td style={{display:"flex", alignItems: "center", justifyContent: "center"}}>
                   {/* Opens the "confirm deletion" modal */}
-                  <button onClick={() => setRowToDelete(row)}
+                  <button onClick={() => setRowToDelete(index)}
                     type="button" 
                     className="button button-delete" 
                   >

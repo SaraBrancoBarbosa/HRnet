@@ -28,10 +28,10 @@ const ApiProviderEmployees = ({ children }) => {
         ]) 
     }
 
-    const deleteEmployee = (employeeId) => {
-        setEmployees((prev) => 
-            prev.filter(employee  => employee .id !== employeeId)
-        )
+    const deleteEmployee = (internalIndex) => {
+        setEmployees((prev) => {
+            return prev.filter((_, index) => index !== internalIndex)
+        })
     }
 
     return <ApiContext.Provider value={{addEmployee, deleteEmployee, employees }}>
