@@ -14,7 +14,7 @@ function Pagination({
     <>
       {/* To know the number of entries showing / totalItems */}
       <div>
-          Showing {currentItemIndex + 1} to {Math.min(currentItemIndex + itemsPerPage + 1, totalItems)} of {totalItems} entries
+          Showing {currentItemIndex + 1} to {Math.min(currentItemIndex + itemsPerPage, totalItems)} of {totalItems} entries
         </div>
 
         {/* Previous and next page + the current page */}
