@@ -4,6 +4,7 @@ import TableComponent from "../../components/table/Table"
 import "./employeesList.css"
 
 const headers = [
+  // For the search bar, the filter is used on the first name and last name only
   {name:"First Name", filterable: true},
   {name:"Last Name", filterable: true},
   {name:"Date of Birth", type:"date"},
