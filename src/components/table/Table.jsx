@@ -1,10 +1,11 @@
 import PropTypes from "prop-types"
-import { Fragment, useCallback, useMemo, useState } from "react"
+import { Fragment, useMemo, useState } from "react"
 import ModalComponent from "../modal/Modal"
 import SearchBar from "./SearchBar"
 import usePagination from "./pagination/usePagination"
 import Pagination from "./pagination/Pagination"
 import ShowEntriesOptions from "./ShowEntriesOptions"
+import DeleteItem from "./deleteItem"
 import "./table.css"
 
 // Date conversion 
@@ -71,45 +72,16 @@ function TableComponent({
   // Pagination
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const paginationProps = usePagination({itemsPerPage: rowsPerPage, totalItems: filteredRows.length})
-  const {
-    currentItemIndex, 
-    itemsPerPage, 
-    totalItems, 
-    setCurrentPage,
-  } = paginationProps
+  const { currentItemIndex, itemsPerPage, totalItems, setCurrentPage } = paginationProps
 
   // To get the current rows
   const currentRows = useMemo(() => (
    filteredRows.slice(currentItemIndex, Math.min(currentItemIndex + itemsPerPage, totalItems))
   ), [filteredRows, currentItemIndex, itemsPerPage, totalItems])
 
-  // Filter management (search bar)
-  const handleFilterChange = useCallback((e) => {
-    setFilterText(e.target.value)
-    setCurrentPage(0)
-  }, [setFilterText, setCurrentPage])
-
-  // To handle the entries to show
-  const handleRowsPerPageChange = useCallback((e) => {
-    setRowsPerPage(Number(e.target.value))
-    setCurrentPage(0)
-  },[setRowsPerPage, setCurrentPage])
-
+  
   // To open the "confirm deletion" modal
   const [rowToDelete, setRowToDelete] = useState(null)
-  
-  // To leave the delete modal without deleting the data
-  const handleCancelDelete = () => {
-    setRowToDelete(null)
-  }
-
-  // To delete the row data
-  const handleDeleteConfirm = () => {
-    if (rowToDelete !== null) {
-      deleteRow(rowToDelete)
-      setRowToDelete(null)
-    }
-  }
 
   return (
     <div className="table_wrapper">
@@ -117,11 +89,16 @@ function TableComponent({
       <div className="entries-and-search">
         {/* To choose the number of entries to show per page */}
         <ShowEntriesOptions
-          rowsPerPage={rowsPerPage} handleRowsPerPageChange={handleRowsPerPageChange}
+          rowsPerPage={rowsPerPage} 
+          setRowsPerPage={setRowsPerPage}
+          setCurrentPage={setCurrentPage}
         />
         
         {/* Search bar */}
-        <SearchBar filterText={filterText} handleFilterChange={handleFilterChange} />
+        <SearchBar 
+          setFilterText={setFilterText}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
 
       {/* Table */}
@@ -187,12 +164,15 @@ function TableComponent({
       <ModalComponent
         //To open the modal only when a row is about to be deleted
         isOpen={rowToDelete !== null}
-        onRequestClose={handleCancelDelete}
+        onRequestClose={() => setRowToDelete(null)}
         title="Confirm Deletion"
         message="Are you sure you want to definitely delete this employee?"
       >
-        <button onClick={handleDeleteConfirm} className="button" style={{backgroundColor:"red"}}>Delete</button>
-        <button onClick={handleCancelDelete} className="button">Cancel</button>
+        <DeleteItem
+          rowToDelete={rowToDelete}
+          deleteRow={deleteRow}
+          setRowToDelete={setRowToDelete}
+        />
       </ModalComponent>
 
     </div>

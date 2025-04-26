@@ -1,6 +1,14 @@
 import PropTypes from "prop-types"
+import { useCallback } from "react"
 
-function ShowEntriesOptions({rowsPerPage, handleRowsPerPageChange}) {
+function ShowEntriesOptions({setRowsPerPage, rowsPerPage, setCurrentPage }) {
+  
+  // To manage the entries to show
+    const handleRowsPerPageChange = useCallback((e) => {
+      setRowsPerPage(Number(e.target.value))
+      setCurrentPage(0)
+    },[setRowsPerPage, setCurrentPage])
+  
   return (
     <div>
         <label>
@@ -21,8 +29,9 @@ function ShowEntriesOptions({rowsPerPage, handleRowsPerPageChange}) {
 }
 
 ShowEntriesOptions.propTypes = {
-    filterText: PropTypes.string.isRequired,
-    onFilterChange: PropTypes.func.isRequired,
+  setRowsPerPage: PropTypes.func.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
 }
 
 export default ShowEntriesOptions
