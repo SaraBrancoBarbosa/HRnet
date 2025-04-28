@@ -1,0 +1,3 @@
+[submodule "src/components/react-table-component"]
+	path = src/components/react-table-component
+	url = https://github.com/SaraBrancoBarbosa/react-table-component.git
