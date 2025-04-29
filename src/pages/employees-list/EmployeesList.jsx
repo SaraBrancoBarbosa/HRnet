@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import Context from "../../api/employee-context/ApiContext"
-import TableComponent from "../../components/table/Table"
+import TableComponent from "../../components/react-table-component/Table"
 import "./employeesList.css"
 
 const headers = [
