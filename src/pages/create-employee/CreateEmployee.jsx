@@ -91,8 +91,8 @@ function CreateEmployeePage() {
         <div className="labels-divs">
 
           {/* First name */}
-          <div className="label-input">
-            <label htlmfor="first-name">First Name</label>
+          <div className="label-input" aria-labelledby="first-name">
+            <label id="first-name">First Name</label>
             <input 
               {...register("first-name", { 
                 required: "The first name is required.",
@@ -115,8 +115,8 @@ function CreateEmployeePage() {
           </div>
 
           {/* Last name */}
-          <div className="label-input">
-            <label htmlFor="last-name">Last Name</label>
+          <div className="label-input" aria-labelledby="last-name">
+            <label id="last-name">Last Name</label>
             <input 
               {...register("last-name", { 
                 required: "The last name is required.",
@@ -139,7 +139,7 @@ function CreateEmployeePage() {
           </div>
 
           {/* The 2 datepickers: Date of birth and Start date */}
-          <div className="label-input">
+          <div className="label-input" aria-labelledby="date-of-birth">
           {/* Controller is used for customised components (libraries) */}
           <Controller
             name="date-of-birth"
@@ -163,7 +163,7 @@ function CreateEmployeePage() {
             )}
           </div>
 
-          <div className="label-input">
+          <div className="label-input" aria-labelledby="start-date">
           <Controller
             name="start-date"
             control={control}
@@ -191,8 +191,8 @@ function CreateEmployeePage() {
                 <legend>Address</legend>
 
                  {/* Street */}
-                <div className="label-input">
-                  <label htmlFor="street">Street</label>
+                <div className="label-input" aria-labelledby="street">
+                  <label id="street">Street</label>
                   <input
                     {...register("street", { required: "The street address is required." })}
                     id="street" 
@@ -205,8 +205,8 @@ function CreateEmployeePage() {
                 </div>
 
                 {/* City */}
-                <div className="label-input">
-                  <label htmlFor="city">City</label>
+                <div className="label-input" aria-labelledby="city">
+                  <label id="city">City</label>
                   <input
                     {...register("city", { 
                       required: "The city address is required.",
@@ -229,8 +229,8 @@ function CreateEmployeePage() {
                 </div>
 
                 {/* State */}
-                <div className="label-input">
-                  <label htmlFor="state">State</label>
+                <div className="label-input" aria-labelledby="state">
+                  <label id="state">State</label>
                   <Controller
                     name="state"
                     control={control}
@@ -256,8 +256,8 @@ function CreateEmployeePage() {
                 </div>
 
                 {/* Zip Code */}
-                <div className="label-input">
-                  <label htmlFor="zip-code">Zip Code</label>
+                <div className="label-input" aria-labelledby="zip-code">
+                  <label id="zip-code">Zip Code</label>
                   <input
                     {...register("zip-code", { 
                       required: "The zip code is required.",
@@ -278,7 +278,7 @@ function CreateEmployeePage() {
             </fieldset>
 
             {/* Department */}
-            <div className="label-input">
+            <div className="label-input" aria-labelledby="department">
               <label htlmfor="department">Department</label>
               <Controller
                 name="department"
