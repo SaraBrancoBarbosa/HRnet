@@ -3,22 +3,38 @@ import PropTypes from "prop-types"
 import { useRef } from "react"
 
 const customStyles = {
-  control: (baseStyles, state) => ({
-    ...baseStyles,
-    height: 21,
-    minHeight: 21,
-    maxWidth: 186,
-    minWidth: 186,
-    alignContent: "center",
-    borderColor: state.isFocused ? "#0060DF" : "#8F8F9D",
-    boxShadow: state.isFocused ? "0 0 0 1px #0060DF" : "none",
-    borderRadius: 2,
-    paddingLeft: 0,
-    "&:hover": {
-      borderColor: state.isFocused ? "#0060DF" : "#8F8F9D",
-      
+  control: (baseStyles, state) => {
+    const baseControl = {
+      ...baseStyles,
+      height: 21,
+      minHeight: 21,
+      maxWidth: 186,
+      minWidth: 186,
+      alignContent: "center",
+      borderColor: state.isFocused ? "#0060DF" : "#767676",
+      boxShadow: state.isFocused ? "0 0 0 1px #0060DF" : "none",
+      borderRadius: 2,
+      paddingLeft: 0,
+      fontSize: 13,
+      "&:hover": {
+        borderColor: state.isFocused ? "#0060DF" : "#767676", 
+      }
     }
-  }),
+
+    // To standardise the border color with the other Chrome's inputs
+    const chromeSpecificStyles = {
+      "@supports (-webkit-appearance: none)": {
+        boxShadow: state.isFocused ? "0 0 0 1px #000000" : "none",
+        borderColor: state.isFocused ? "#000000" : "none",
+        "&:hover": {
+          borderColor: state.isFocused ? "#000000" : "#767676", 
+        }
+      }
+    }
+
+    return { ...baseControl, ...chromeSpecificStyles }
+  },
+
   indicatorSeparator: (baseStyles) => ({
     ...baseStyles,
     marginTop: 10,
