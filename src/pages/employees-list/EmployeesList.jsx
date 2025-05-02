@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import Context from "../../api/employee-context/ApiContext"
 import TableComponent from "../../components/react-table-component/Table"
+import ModalComponent from "../../components/modal/Modal"
 import "./employeesList.css"
 
 const headers = [
@@ -16,6 +17,13 @@ const headers = [
   {name:"Zip Code", type:"number"},
   {name:"Id", type:"string", visible:false}
 ]
+
+// To use the modal from the react-modal library
+const customModal = (props) => (
+  <ModalComponent {...props}>
+    {props.children}
+  </ModalComponent>
+)
 
 function EmployeesListPage() {
 
@@ -57,6 +65,7 @@ function EmployeesListPage() {
         headers={headers} 
         rows={data} 
         deleteRow={deleteEmployee}
+        modalComponent={customModal}
       />
 
     </div>
