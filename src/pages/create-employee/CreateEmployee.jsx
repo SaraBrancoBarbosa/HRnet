@@ -262,8 +262,8 @@ function CreateEmployeePage() {
                     {...register("zip-code", { 
                       required: "The zip code is required.",
                       pattern: {
-                        value: /^[0-9]+$/,
-                        message: "Invalid characters."
+                        value: /^[0-9]{5}$/,
+                        message: "Zip code must be exactly 5 digits."
                       },
                     })}
                     id="zip-code" 
