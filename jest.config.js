@@ -6,4 +6,7 @@ export default {
       "\\.(css|less|sass|scss)$": "identity-obj-proxy", // The mock for style related files
       "^@/(.*)$": "<rootDir>/src/$1", // [optional] Are you using aliases?
     },
+    transform: {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+    },
   }
