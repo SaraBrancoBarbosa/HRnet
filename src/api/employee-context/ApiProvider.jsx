@@ -28,9 +28,9 @@ const ApiProviderEmployees = ({ children }) => {
         ]) 
     }
 
-    const deleteEmployee = (internalIndex) => {
+    const deleteEmployee = (employeeId) => {
         setEmployees((prev) => {
-            return prev.filter((_, index) => index !== internalIndex)
+            return prev.filter((employee) => employee.id !== employeeId)
         })
     }
 
