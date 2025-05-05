@@ -23,6 +23,18 @@ export const mockEmployeeContext = {
       state: "Tennessee",
       zipCode: "37210",
       id: "1"
+    },
+    {
+      firstName: "Fabiano",
+      lastName: "Riggoll",
+      dateOfBirth: "1993-02-22",
+      department: "Sales",
+      startDate: "2025-04-08",
+      street: "6752 Bayside Parkway",
+      city: "Boise",
+      state: "Idaho",
+      zipCode: "83716",
+      id: "1"
     }
   ],
   deleteEmployee: jest.fn(),

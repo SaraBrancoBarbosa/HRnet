@@ -49,7 +49,6 @@ describe("When on the Homepage", () => {
 
   describe("When clicking on the Employees List link", () => {
     test("Then, it should navigate to the Employees List page", () => {
-      
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Context.Provider value={mockEmployeeContext}>
@@ -60,7 +59,7 @@ describe("When on the Homepage", () => {
           </Context.Provider>
         </MemoryRouter>
       )
-
+      
       fireEvent.click(screen.getByRole("link", { name: "Employees List" }))
 
       expect(screen.getByText(/Current Employees/i)).toBeTruthy()

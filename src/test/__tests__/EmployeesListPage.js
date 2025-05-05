@@ -7,6 +7,7 @@ import EmployeesListPage from "../../pages/employees-list/EmployeesList"
 import Pagination from "../../components/react-table-component/pagination/Pagination"
 import SearchBar from "../../components/react-table-component/SearchBar"
 import ShowEntriesOptions from "../../components/react-table-component/ShowEntriesOptions"
+import DeleteItem from "../../components/react-table-component/deleteItem"
 
 describe("When EmployeesListPage is called", () => {
     // To use the mocked data before each test
@@ -129,7 +130,25 @@ describe("When I am on the EmployeesListPage", () => {
     })
 
     test("Then, I should be able to delete an employee data by clicking on the according button", async () => {
-        // To complete!
+        // To mock the two functions
+        const deleteRowMock = jest.fn()
+        const setRowToDeleteMock = jest.fn()
+
+        render(
+            <DeleteItem
+                // Example of row to delete by using the index 1 (second row)
+                rowToDelete={1}
+                deleteRow={deleteRowMock}
+                setRowToDelete={setRowToDeleteMock}
+                onClose={null}
+            />
+        )
+
+        const deleteButton = screen.getByRole("button", { name: /delete/i })
+        fireEvent.click(deleteButton)
+
+        expect(deleteRowMock).toHaveBeenCalledWith(1)
+        expect(setRowToDeleteMock).toHaveBeenCalledWith(null)
     })
 
     describe("When I am on the EmployeesListPage and I'm using the pagination system", () => {
@@ -306,8 +325,42 @@ describe("When I am on the EmployeesListPage and I'm using the ShowEntriesOption
     })
 })
 
-describe("When I am on the EmployeesListPage and I'm using the ShowEntriesOptions component", () => {
+describe("When I am on the EmployeesListPage and I'm using the SortItem component", () => {
+    beforeEach(() => {
+        mockFetch({ employeesList: [] })
+        render(
+            <MemoryRouter>
+                <Context.Provider value={mockEmployeeContext}>
+                    <EmployeesListPage />
+                </Context.Provider>
+            </MemoryRouter>
+        )
+    })
     test("Then, when I click on the sorting icons in the headers, the table is correctly sorted", async () => {
-        // To complete!
+        const firstNameHeader = screen.getByText(/First Name/i)
+        const sortIcon = firstNameHeader.querySelector(".sort-symbol")
+
+        // At first: random order
+        const rowsBeforeSort = screen.getAllByRole("row")
+        expect(rowsBeforeSort[1].textContent).toMatch(/Janeen/)
+        expect(rowsBeforeSort[2].textContent).toMatch(/Fabiano/)
+
+        fireEvent.click(sortIcon)
+
+        // First click: ascendant
+        const rowsAfterSortAsc = screen.getAllByRole("row")
+        expect(rowsAfterSortAsc[1].textContent).toMatch(/Fabiano/)
+        expect(rowsAfterSortAsc[2].textContent).toMatch(/Janeen/)
+
+        expect(sortIcon.textContent).toBe("↑")
+
+        fireEvent.click(sortIcon)
+
+        // Second click: descendant
+        const rowsAfterSortDesc = screen.getAllByRole("row")
+        expect(rowsAfterSortDesc[1].textContent).toMatch(/Janeen/)
+        expect(rowsAfterSortDesc[2].textContent).toMatch(/Fabiano/)
+
+        expect(sortIcon.textContent).toBe("↓")
     })
 })
