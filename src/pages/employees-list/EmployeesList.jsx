@@ -57,6 +57,9 @@ function EmployeesListPage() {
     employee.id,
   ])
 
+  // To get the id of the item depending on its column (for the deletion)
+  const getId = (row) => row[10]
+
   return (
     <div className="employee-list-container">
       <h1>Current Employees</h1>
@@ -70,6 +73,7 @@ function EmployeesListPage() {
         showSearchBar = {true}
         showSortItem = {true}
         showDeleteItem = {true}
+        getId={getId}
         // If you have your own modal/a modal library, you can use it to confirm or cancel the deletion. If you don't, the deletion will be immediate.
         modalComponent={customModal}
       />
