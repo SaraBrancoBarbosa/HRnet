@@ -7,7 +7,7 @@ import EmployeesListPage from "../../pages/employees-list/EmployeesList"
 import Pagination from "../../components/react-table-component/pagination/Pagination"
 import SearchBar from "../../components/react-table-component/SearchBar"
 import ShowEntriesOptions from "../../components/react-table-component/ShowEntriesOptions"
-import DeleteItem from "../../components/react-table-component/deleteItem"
+import DeleteItem from "../../components/deleteButton/DeleteItem"
 
 describe("When EmployeesListPage is called", () => {
     // To use the mocked data before each test
@@ -173,12 +173,14 @@ describe("When I am on the EmployeesListPage", () => {
             const currentPageElement = currentPageElements.find(el => el.classList.contains("current-page"))
             expect(currentPageElement).toBeInTheDocument()
 
-            const previousPage = document.querySelector(".previous-page")
+            const previousPageButton = document.querySelector(".previous-page:not([disabled])")
 
-            userEvent.click(previousPage)
+            expect(previousPageButton).toBeEnabled()
+
+            userEvent.click(previousPageButton )
 
             await waitFor(() => {
-            expect(mockSetCurrentPage).toHaveBeenCalledWith(0)
+                expect(mockSetCurrentPage).toHaveBeenCalledWith(0)
             })
 
             // To confirm we are now on the first page
@@ -233,9 +235,11 @@ describe("When I am on the EmployeesListPage", () => {
             const currentPageElement = currentPageElements.find(el => el.classList.contains("current-page"))
             expect(currentPageElement).toBeInTheDocument()
 
-            const nextPage = document.querySelector(".next-page")
+            const nextPageButton = document.querySelector(".next-page:not([disabled])")
 
-            userEvent.click(nextPage)
+            expect(nextPageButton).toBeEnabled()
+
+            userEvent.click(nextPageButton)
 
             await waitFor(() => {
                 expect(mockSetCurrentPage).toHaveBeenCalledWith(1)
