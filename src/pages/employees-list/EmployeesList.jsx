@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import Context from "../../api/employee-context/ApiContext"
 import TableComponent from "../../components/react-table-component/Table"
 import ModalComponent from "../../components/modal/Modal"
+import DeleteItem from "../../components/deleteButton/DeleteItem"
 import "./employeesList.css"
 
 const headers = [
@@ -18,13 +19,6 @@ const headers = [
   {name:"Id", type:"string", visible:false}
 ]
 
-// To use the modal from the react-modal library
-const customModal = (props) => (
-  <ModalComponent {...props}>
-    {props.children}
-  </ModalComponent>
-)
-
 function EmployeesListPage() {
 
   // To get the employees + the deleteEmployee function from the Context
@@ -32,6 +26,9 @@ function EmployeesListPage() {
 
   // !!!To delete after the app dev!!! => employees mocked data (to test the pagination and filter system)
   const [mockedEmployees, setMockedEmployees] = useState([])
+
+  // To delete a row
+  const [deleteRowId, setDeleteRowId] = useState(null)
 
   // To fetch the mocked data => 500 employees
   useEffect(() => {
@@ -43,7 +40,7 @@ function EmployeesListPage() {
 
   const mergedEmployees = [...employees, ...mockedEmployees]
 
-  // The employees data => mergedEmployees will be "employees" once the mocked data are deleted
+  // The employees data => "mergedEmployees" will be "employees" once the mocked data are deleted
     const data = mergedEmployees.map((employee) => [
     employee.firstName,
     employee.lastName,
@@ -57,9 +54,9 @@ function EmployeesListPage() {
     employee.id,
   ])
 
-  // To get the id of the item depending on its column (for the deletion)
+  // To get the id of the item depending on its column (for the deletion) => column 11, index 10
   const getId = (row) => row[10]
-
+ 
   return (
     <div className="employee-list-container">
       <h1>Current Employees</h1>
@@ -67,16 +64,31 @@ function EmployeesListPage() {
       <TableComponent 
         headers={headers} 
         rows={data} 
-        deleteRow={deleteEmployee}
-        // If you don't want to use one of these features, enter {false}
         showPagination = {true}
         showSearchBar = {true}
         showSortItem = {true}
-        showDeleteItem = {true}
         getId={getId}
-        // If you have your own modal/a modal library, you can use it to confirm or cancel the deletion. If you don't, the deletion will be immediate.
-        modalComponent={customModal}
+        onDelete={setDeleteRowId}
       />
+
+      {/* Modal when deleting an employee: confirm deletion */}
+      {deleteRowId !== null && (
+        <ModalComponent
+          // To open the modal only when a row is about to be deleted
+          isOpen={deleteRowId !== null}
+          onRequestClose={() => setDeleteRowId(null)}
+          title="Confirm Deletion"
+          message="Are you sure you want to delete this item?"
+        >
+          <DeleteItem
+            rowToDelete={deleteRowId}
+            deleteRow={deleteEmployee}
+            setRowToDelete={setDeleteRowId}
+            // To close the modal
+            onClose={() => setDeleteRowId(null)}
+          />
+        </ModalComponent>
+      )}
 
     </div>
   )
