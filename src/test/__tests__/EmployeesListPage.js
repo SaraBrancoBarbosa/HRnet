@@ -4,9 +4,9 @@ import userEvent from "@testing-library/user-event"
 import { mockEmployeeContext, mockFetch } from "../__mocks__/mock"
 import Context from "../../api/employee-context/ApiContext"
 import EmployeesListPage from "../../pages/employees-list/EmployeesList"
-import Pagination from "../../components/react-table-component/pagination/Pagination"
-import SearchBar from "../../components/react-table-component/SearchBar"
-import ShowEntriesOptions from "../../components/react-table-component/ShowEntriesOptions"
+import Pagination from "../../components/react-table-component/src/pagination/Pagination"
+import SearchBar from "../../components/react-table-component/src/SearchBar"
+import ShowEntriesOptions from "../../components/react-table-component/src/ShowEntriesOptions"
 import DeleteItem from "../../components/deleteButton/DeleteItem"
 
 describe("When EmployeesListPage is called", () => {
