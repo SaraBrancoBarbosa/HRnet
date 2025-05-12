@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import Context from "../../api/employee-context/ApiContext"
-import TableComponent from "../../components/react-table-component/Table"
+import TableComponent from "../../components/react-table-component/src/Table"
 import ModalComponent from "../../components/modal/Modal"
 import DeleteItem from "../../components/deleteButton/DeleteItem"
 import "./employeesList.css"
