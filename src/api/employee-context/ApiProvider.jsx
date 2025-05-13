@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 /***** 
 The provider of ApiContext
-The provider encapsulates the children by providing the context : any component gets access to "mode" and its function to swap
+The provider encapsulates the children by providing the context
 *****/
 
 // To get the employees from the localStorage
