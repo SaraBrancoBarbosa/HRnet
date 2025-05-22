@@ -6,7 +6,7 @@ function Header() {
     return (
         <header className="header">
             <Link to="/">
-                <img className="logo" src="/assets/logo.png" alt="Logo of Wealth Health. Link to the homepage." />
+                <img className="logo" src="assets/logo.png" alt="Logo of Wealth Health. Link to the homepage." />
             </Link>
 
             <nav>

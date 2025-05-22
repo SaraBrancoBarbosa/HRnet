@@ -1,4 +1,5 @@
 {
+  "homepage": "https://sarabrancobarbosa.github.io/HRnet",
   "name": "hrnet",
   "private": true,
   "version": "0.0.0",
@@ -9,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest --watchAll",
-    "cov": "jest --coverage --collectCoverageFrom='src/**/*.{js,jsx}'"
+    "cov": "jest --coverage --collectCoverageFrom='src/**/*.{js,jsx}'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -37,6 +40,7 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
