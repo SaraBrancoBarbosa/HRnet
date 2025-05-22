@@ -1,4 +1,4 @@
-![Logo de l'application SportSee.](/public/assets/logo.png)
+![Logo du site HRnet.](/public/assets/logo.png)
 
 # L'application HRnet (entreprise fictive)
 HRnet est l'application web interne de WealthHealth, une grande société financière.<br>
@@ -10,6 +10,7 @@ Actuellement, notre équipe met à niveau l'application en passant de jQuery à 
 - React (Vite)
 - Router
 - Sass
+- Jest
 
 ## L'installation du projet
 ### Les prérequis
